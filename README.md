@@ -19,8 +19,8 @@
 
 <div align="center">
   
-  ![Dark Mode](C:\Users\HP\Documents\my-portfolio\public\reference\a.png)
-  ![Light Mode](C:\Users\HP\Documents\my-portfolio\public\reference\b.png)
+  ![Dark Mode](/public/reference/a.png)
+  ![Light Mode](/public/reference/b.png)
   
 </div>
 
