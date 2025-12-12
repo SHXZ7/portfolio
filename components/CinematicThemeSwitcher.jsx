@@ -59,7 +59,7 @@ export default function CinematicThemeSwitcher({ onThemeChange }) {
       <motion.button
         ref={toggleRef}
         onClick={handleToggle}
-        className={`relative flex h-[64px] w-[104px] items-center rounded-full p-[6px] transition-all duration-500 focus:outline-none backdrop-blur-xl ${
+        className={`relative flex h-[52px] w-[88px] sm:h-[58px] sm:w-[96px] md:h-[64px] md:w-[104px] items-center rounded-full p-[5px] sm:p-[5.5px] md:p-[6px] transition-all duration-500 focus:outline-none backdrop-blur-xl ${
           isDark
             ? 'bg-gradient-to-br from-[#1a1a1a]/90 via-[#0f0f0f]/85 to-[#1a1a1a]/90'
             : 'bg-gradient-to-br from-white/90 via-[#f8f9fa]/85 to-[#e9ecef]/90'
@@ -67,16 +67,16 @@ export default function CinematicThemeSwitcher({ onThemeChange }) {
         style={{
           boxShadow: isDark
             ? `
-              inset 5px 5px 12px rgba(0, 0, 0, 0.6),
-              inset -5px -5px 12px rgba(200, 255, 92, 0.05),
-              0 8px 32px rgba(0, 0, 0, 0.3),
-              0 4px 12px rgba(0, 0, 0, 0.2)
+              inset 4px 4px 10px rgba(0, 0, 0, 0.6),
+              inset -4px -4px 10px rgba(200, 255, 92, 0.05),
+              0 6px 24px rgba(0, 0, 0, 0.3),
+              0 3px 10px rgba(0, 0, 0, 0.2)
             `
             : `
-              inset 5px 5px 12px rgba(142, 196, 56, 0.15),
-              inset -5px -5px 12px rgba(255, 255, 255, 1),
-              0 8px 32px rgba(0, 0, 0, 0.08),
-              0 4px 12px rgba(0, 0, 0, 0.06)
+              inset 4px 4px 10px rgba(142, 196, 56, 0.15),
+              inset -4px -4px 10px rgba(255, 255, 255, 1),
+              0 6px 24px rgba(0, 0, 0, 0.08),
+              0 3px 10px rgba(0, 0, 0, 0.06)
             `,
           border: isDark 
             ? '2px solid rgba(200, 255, 92, 0.2)' 
@@ -125,14 +125,14 @@ export default function CinematicThemeSwitcher({ onThemeChange }) {
         />
 
         {/* Background Icons */}
-        <div className="absolute inset-0 flex items-center justify-between px-4">
-          <Sun size={20} className={isDark ? 'text-[#C8FF5C]/30' : 'text-[#8ec438]'} />
-          <Moon size={20} className={isDark ? 'text-[#C8FF5C]' : 'text-gray-400'} />
+        <div className="absolute inset-0 flex items-center justify-between px-3 sm:px-3.5 md:px-4">
+          <Sun size={16} className={`sm:w-[18px] sm:h-[18px] md:w-5 md:h-5 ${isDark ? 'text-[#C8FF5C]/30' : 'text-[#8ec438]'}`} />
+          <Moon size={16} className={`sm:w-[18px] sm:h-[18px] md:w-5 md:h-5 ${isDark ? 'text-[#C8FF5C]' : 'text-gray-400'}`} />
         </div>
 
         {/* Circular Thumb with Bouncy Spring Physics */}
         <motion.div
-          className="relative z-10 flex h-[44px] w-[44px] items-center justify-center rounded-full overflow-hidden"
+          className="relative z-10 flex h-[36px] w-[36px] sm:h-[40px] sm:w-[40px] md:h-[44px] md:w-[44px] items-center justify-center rounded-full overflow-hidden"
           style={{
             background: isDark
               ? 'linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #0f0f0f 100%)'
@@ -141,20 +141,20 @@ export default function CinematicThemeSwitcher({ onThemeChange }) {
               ? `
                 inset 2px 2px 4px rgba(200, 255, 92, 0.1),
                 inset -2px -2px 4px rgba(0, 0, 0, 0.6),
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                0 4px 12px rgba(0, 0, 0, 0.3)
+                0 6px 24px rgba(0, 0, 0, 0.4),
+                0 3px 10px rgba(0, 0, 0, 0.3)
               `
               : `
                 inset 2px 2px 4px rgba(200, 255, 92, 0.15),
                 inset -2px -2px 4px rgba(255, 255, 255, 1),
-                0 8px 32px rgba(0, 0, 0, 0.12),
-                0 4px 12px rgba(0, 0, 0, 0.08)
+                0 6px 24px rgba(0, 0, 0, 0.12),
+                0 3px 10px rgba(0, 0, 0, 0.08)
               `,
             border: isDark
               ? '2px solid rgba(200, 255, 92, 0.15)'
               : '2px solid rgba(200, 255, 92, 0.3)',
           }}
-          animate={{ x: isDark ? 46 : 0 }}
+          animate={{ x: isDark ? (typeof window !== 'undefined' && window.innerWidth < 640 ? 38 : typeof window !== 'undefined' && window.innerWidth < 768 ? 42 : 46) : 0 }}
           transition={{
             type: 'spring',
             stiffness: 300,
@@ -202,9 +202,9 @@ export default function CinematicThemeSwitcher({ onThemeChange }) {
           {/* Icon */}
           <div className="relative z-10">
             {isDark ? (
-              <Moon size={20} className="text-[#C8FF5C]" />
+              <Moon size={16} className="sm:w-[18px] sm:h-[18px] md:w-5 md:h-5 text-[#C8FF5C]" />
             ) : (
-              <Sun size={20} className="text-[#8ec438]" />
+              <Sun size={16} className="sm:w-[18px] sm:h-[18px] md:w-5 md:h-5 text-[#8ec438]" />
             )}
           </div>
         </motion.div>

@@ -502,23 +502,23 @@ const ibmCourses = [
 
   return (
     <>
-      {/* Theme Switcher - Fixed Top Left */}
-      <div className="fixed top-6 left-6 z-50">
+      {/* Theme Switcher - Fixed Top Left (Hidden on Mobile) */}
+      <div className="hidden md:block fixed top-6 left-6 z-50">
         <CinematicThemeSwitcher onThemeChange={setTheme} />
       </div>
 
-      {/* CV Download Button - Fixed Top Right */}
-      <div className="fixed top-8 right-6 z-50">
+      {/* CV Download Button - Bottom Right on Mobile, Top Right on Desktop */}
+      <div className="fixed bottom-4 right-4 md:bottom-auto md:top-8 md:right-6 z-50">
         <DownloadCVButton theme={theme} />
       </div>
 
       {/* Contact Button - Fixed Bottom Left */}
-      <div className="fixed bottom-6 left-6 z-50">
+      <div className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50 scale-75 sm:scale-90 md:scale-100">
         <AnimatedContactButton theme={theme} />
       </div>
 
       {/* Social Icons - Fixed Bottom Center */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+      <div className="fixed bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-50 scale-75 sm:scale-90 md:scale-100">
         <SocialIcons theme={theme} />
       </div>
 
@@ -539,36 +539,36 @@ const ibmCourses = [
         <div className="container mx-auto px-6 md:px-8 relative z-10 min-h-screen pt-24 pb-20 flex items-center">
           {/* Main Typography Layout */}
           <div className="w-full relative px-4 md:px-0">
-            {/* Left Side - NAME & DATA */}
+            {/* Top Side - NAME & DATA (Hidden on Mobile) */}
             <div 
-              className="absolute left-[7%] md:left-[-8%] top-1/2 -translate-y-1/2 z-10 transition-all duration-700"
+              className="hidden md:block absolute left-[-8%] top-1/2 -translate-y-1/2 z-10 transition-all duration-700"
               style={{ 
                 opacity: 1 - scrollY / 500,
                 transform: `translate(-${scrollY / 5}px, -50%)`
               }}
             >
-              <p className={`${montserrat.className} text-[9px] md:text-[13px] uppercase tracking-[0.25em] md:tracking-[0.3em] mb-3 md:mb-4 font-semibold animate-fadeIn ${
+              <p className={`${montserrat.className} text-[8px] sm:text-[10px] md:text-[13px] uppercase tracking-[0.2em] sm:tracking-[0.25em] md:tracking-[0.3em] mb-2 sm:mb-3 md:mb-4 font-semibold animate-fadeIn ${
                 theme === 'dark' ? 'text-white/60' : 'text-gray-600'
               }`}>
-                MOHAMMED SHAAZ SHARAFUDDIN
+                MOHAMMED SHAAZ
               </p>
-              <h1 className={`${montserrat.className} text-[clamp(30px,10vw,160px)] md:text-[clamp(70px,10vw,160px)] font-black leading-[0.85] tracking-[-0.03em] animate-slideInLeft`} style={{ fontWeight: 900 }}>
+              <h1 className={`${montserrat.className} text-[50px] sm:text-[65px] md:text-[clamp(70px,10vw,160px)] font-black leading-[0.85] tracking-[-0.03em] animate-slideInLeft`} style={{ fontWeight: 900 }}>
                 DATA 
               </h1>
             </div>
 
-            {/* Right Side - SCIENCE */}
+            {/* Bottom Side - SCIENCE (Hidden on Mobile) */}
             <div 
-              className="absolute right-[8%] md:right-[-11%] top-1/2 -translate-y-1/2 z-10 transition-all duration-700"
+              className="hidden md:block absolute right-[-11%] top-1/2 -translate-y-1/2 z-10 transition-all duration-700 text-right"
               style={{ 
                 opacity: 1 - scrollY / 500,
                 transform: `translate(${scrollY / 5}px, -50%)`
               }}
             >
-              <h1 className={`${montserrat.className} text-[clamp(60px,10vw,180px)] md:text-[clamp(70px,10vw,160px)] font-black leading-[0.85] tracking-[-0.03em] text-right animate-slideInRight`} style={{ fontWeight: 900 }}>
+              <h1 className={`${montserrat.className} text-[50px] sm:text-[65px] md:text-[clamp(70px,10vw,160px)] font-black leading-[0.85] tracking-[-0.03em] animate-slideInRight`} style={{ fontWeight: 900 }}>
                 SCIENCE
               </h1>
-              <p className={`text-xs md:text-sm mt-3 md:mt-3 max-w-[250px] md:max-w-md text-right ml-auto font-bold leading-relaxed animate-fadeIn opacity-0 ${
+              <p className={`text-[10px] sm:text-xs md:text-sm mt-2 sm:mt-3 md:mt-3 max-w-[200px] sm:max-w-[240px] md:max-w-md mx-auto md:mx-0 md:ml-auto font-bold leading-relaxed animate-fadeIn opacity-0 ${
                 theme === 'dark' ? 'text-white/80' : 'text-gray-700'
               }`} style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}>
                 I'm an Indian-based Data Analyst and Machine Learning enthusiast
@@ -577,13 +577,13 @@ const ibmCourses = [
 
             {/* Center Portrait */}
             <div 
-              className="absolute left-[42%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-700"
+              className="absolute left-[42%] top-[40%] sm:top-[42%] md:top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-700"
               style={{ 
                 opacity: 1 - scrollY / 400,
                 transform: `translate(-50%, calc(-50% - ${scrollY / 3}px)) scale(${1 - scrollY / 2000})`
               }}
             >
-              <div className="w-[230px] h-[310px] sm:w-[270px] sm:h-[370px] md:w-[310px] md:h-[420px] rounded-[20px] overflow-hidden shadow-2xl bg-[#f5f5f5] animate-scaleIn transition-transform hover:scale-105 duration-300">
+              <div className="w-[180px] h-[240px] sm:w-[220px] sm:h-[300px] md:w-[270px] md:h-[370px] lg:w-[310px] lg:h-[420px] rounded-[20px] overflow-hidden shadow-2xl bg-[#f5f5f5] animate-scaleIn transition-transform hover:scale-105 duration-300">
                 <img
                   src="/shaaz.jpg"
                   alt="Mohammed Shaaz Sharafuddin"
@@ -596,15 +596,15 @@ const ibmCourses = [
               </div>
 
               {/* Speech Bubble "Hi" */}
-              <div className="absolute -bottom-8 -left-8 md:-bottom-10 md:-left-10 z-40 animate-bounceIn" style={{ animationDelay: '0.5s' }}>
+              <div className="absolute -bottom-6 -left-6 sm:-bottom-8 sm:-left-8 md:-bottom-10 md:-left-10 z-40 animate-bounceIn" style={{ animationDelay: '0.5s' }}>
                 <div className="relative group cursor-pointer">
-                  <div className="w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-[#C8FF5C] rounded-full flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110 duration-300">
-                    <span className="text-[#1a1a1a] text-[40px] md:text-[52px] font-semibold">Hi</span>
+                  <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] md:w-[130px] md:h-[130px] lg:w-[150px] lg:h-[150px] bg-[#C8FF5C] rounded-full flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110 duration-300">
+                    <span className="text-[#1a1a1a] text-[28px] sm:text-[36px] md:text-[46px] lg:text-[52px] font-semibold">Hi</span>
                   </div>
-                  <div className="absolute -bottom-2 left-12 md:left-16 w-0 h-0 
-                    border-l-[14px] md:border-l-[18px] border-l-transparent 
-                    border-r-[14px] md:border-r-[18px] border-r-transparent 
-                    border-t-[18px] md:border-t-[22px] border-t-[#C8FF5C] 
+                  <div className="absolute -bottom-1.5 sm:-bottom-2 left-8 sm:left-10 md:left-12 lg:left-16 w-0 h-0 
+                    border-l-[10px] sm:border-l-[12px] md:border-l-[16px] lg:border-l-[18px] border-l-transparent 
+                    border-r-[10px] sm:border-r-[12px] md:border-r-[16px] lg:border-r-[18px] border-r-transparent 
+                    border-t-[14px] sm:border-t-[16px] md:border-t-[20px] lg:border-t-[22px] border-t-[#C8FF5C] 
                     rotate-[20deg]">
                   </div>
                 </div>
@@ -691,7 +691,7 @@ const ibmCourses = [
                 transform: scrollY > 500 ? 'translateY(0)' : 'translateY(50px)'
               }}
             >
-              <h3 className="text-3xl font-bold mb-8 text-center">Technical Skills</h3>
+              <h3 className="text-4xl font-extrabold mb-8 text-center">Technical Skills</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
                   {skillCategories.map((category) => (
                 <div 
@@ -1504,6 +1504,7 @@ const ibmCourses = [
           </div>
         </footer>
       </div>
+
 
       {/* Course Details Modal - Fixed */}
       {showCourseDetails && (
