@@ -35,16 +35,16 @@ export default function Footer() {
               About
             </Link>
             <Link
-              href="/projects"
-              className="text-white hover:text-gray-300 transition"
-            >
-              Projects
-            </Link>
-            <Link
               href="/blogs"
               className="text-white hover:text-gray-300 transition"
             >
               Blogs
+            </Link>
+            <Link
+              href="/projects"
+              className="text-white hover:text-gray-300 transition"
+            >
+              Projects
             </Link>
             <Link
               href="/contact"
