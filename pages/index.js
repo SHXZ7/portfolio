@@ -286,22 +286,22 @@ const internships = [
 ]
 
 const ibmCourses = [
-  { id: 1, name: 'Introduction to Artificial Intelligence (AI)', duration: '12 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course1.pdf' },
-  { id: 2, name: 'Generative AI: Introduction and Applications', duration: '8 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course2.pdf' },
-  { id: 3, name: 'Generative AI: Prompt Engineering Basics', duration: '9 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course3.pdf' },
-  { id: 4, name: 'Python for Data Science, AI & Development', duration: '25 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course4.pdf' },
-  { id: 5, name: 'Developing AI Applications with Python and Flask', duration: '11 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course5.pdf' },
-  { id: 6, name: 'Building Generative AI-Powered Applications with Python', duration: '14 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course6.pdf' },
-  { id: 7, name: 'Data Analysis with Python', duration: '17 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course7.pdf' },
-  { id: 8, name: 'Machine Learning with Python', duration: '20 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course8.pdf' },
-  { id: 9, name: 'Introduction to Deep Learning & Neural Networks with Keras', duration: '10 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course9.pdf' },
-  { id: 10, name: 'Generative AI and LLMs: Architecture and Data Preparation', duration: '5 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course10.pdf' },
-  { id: 11, name: 'Gen AI Foundational Models for NLP & Language Understanding', duration: '9 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course11.pdf' },
-  { id: 12, name: 'Generative AI Language Modeling with Transformers', duration: '9 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course12.pdf' },
-  { id: 13, name: 'Generative AI Engineering and Fine-Tuning Transformers', duration: '8 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course13.pdf' },
-  { id: 14, name: 'Generative AI Advance Fine-Tuning for LLMs', duration: '9 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course14.pdf' },
-  { id: 15, name: 'Fundamentals of AI Agents Using RAG and LangChain', duration: '7 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course15.pdf' },
-  { id: 16, name: 'Project: Generative AI Applications with RAG and LangChain', duration: '9 hours', grade: 'Not started', certificateUrl: '/certificates/ibm/course16.pdf' }
+  { id: 1, name: 'Introduction to Artificial Intelligence (AI)', duration: '12 hours', grade: 'Not started', certificateUrl: '/ibm/genai1.pdf' },
+  { id: 2, name: 'Generative AI: Introduction and Applications', duration: '8 hours', grade: 'Not started', certificateUrl: '/ibm/genai2.pdf' },
+  { id: 3, name: 'Generative AI: Prompt Engineering Basics', duration: '9 hours', grade: 'Not started', certificateUrl: '/ibm/genai3.pdf' },
+  { id: 4, name: 'Python for Data Science, AI & Development', duration: '25 hours', grade: 'Not started', certificateUrl: '/ibm/genai4.pdf' },
+  { id: 5, name: 'Developing AI Applications with Python and Flask', duration: '11 hours', grade: 'Not started', certificateUrl: '/ibm/genai5.pdf' },
+  { id: 6, name: 'Building Generative AI-Powered Applications with Python', duration: '14 hours', grade: 'Not started', certificateUrl: '/ibm/genai6.pdf' },
+  { id: 7, name: 'Data Analysis with Python', duration: '17 hours', grade: 'Not started', certificateUrl: '/ibm/genai7.pdf' },
+  { id: 8, name: 'Machine Learning with Python', duration: '20 hours', grade: 'Not started', certificateUrl: '/ibm/genai8.pdf' },
+  { id: 9, name: 'Introduction to Deep Learning & Neural Networks with Keras', duration: '10 hours', grade: 'Not started', certificateUrl: '/ibm/genai9.pdf' },
+  { id: 10, name: 'Generative AI and LLMs: Architecture and Data Preparation', duration: '5 hours', grade: 'Not started', certificateUrl: '/ibm/genai10.pdf' },
+  { id: 11, name: 'Gen AI Foundational Models for NLP & Language Understanding', duration: '9 hours', grade: 'Not started', certificateUrl: '/ibm/genai11.pdf' },
+  { id: 12, name: 'Generative AI Language Modeling with Transformers', duration: '9 hours', grade: 'Not started', certificateUrl: '/ibm/genai12.pdf' },
+  { id: 13, name: 'Generative AI Engineering and Fine-Tuning Transformers', duration: '8 hours', grade: 'Not started', certificateUrl: '/ibm/genai13.pdf' },
+  { id: 14, name: 'Generative AI Advance Fine-Tuning for LLMs', duration: '9 hours', grade: 'Not started', certificateUrl: '/ibm/genai14.pdf' },
+  { id: 15, name: 'Fundamentals of AI Agents Using RAG and LangChain', duration: '7 hours', grade: 'Not started', certificateUrl: '/ibm/genai15.pdf' },
+  { id: 16, name: 'Project: Generative AI Applications with RAG and LangChain', duration: '9 hours', grade: 'Not started', certificateUrl: '/ibm/genai16.pdf' }
 ]
 
   const projects = [
@@ -812,12 +812,12 @@ const ibmCourses = [
                       
                       <div
                         className={`overflow-hidden transition-all duration-300 ${
-                          expandedService === service.id ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+                          expandedService === service.id ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
                         }`}
                       >
                         <div className="px-8 pb-6 pt-2">
                           {service.image ? (
-                            <div className="flex flex-col md:flex-row gap-8 items-start">
+                            <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-8 items-start">
                               <div className="flex-1">
                                 <p className={`leading-relaxed text-base whitespace-pre-line ${
                                   theme === 'dark' ? 'text-white/70' : 'text-gray-700'
@@ -826,7 +826,7 @@ const ibmCourses = [
                                 </p>
                               </div>
                               <div className="w-full md:w-[380px] flex-shrink-0">
-                                <div className={`rounded-2xl overflow-hidden border p-4 shadow-lg ${
+                                <div className={`rounded-2xl overflow-hidden border p-3 md:p-4 shadow-lg ${
                                   theme === 'dark'
                                     ? 'border-[#C8FF5C]/20 bg-gradient-to-br from-white/5 to-transparent shadow-[#C8FF5C]/10'
                                     : 'border-[#C8FF5C]/30 bg-white shadow-[#C8FF5C]/20'
@@ -834,7 +834,7 @@ const ibmCourses = [
                                   <img 
                                     src={service.image} 
                                     alt={service.title}
-                                    className="w-full h-auto object-contain rounded-xl"
+                                    className="w-full h-auto max-h-[250px] md:max-h-none object-contain rounded-xl"
                                   />
                                 </div>
                               </div>
@@ -896,23 +896,23 @@ const ibmCourses = [
                 transform: scrollY > 1300 ? 'translateY(0)' : 'translateY(50px)'
               }}
             >
-              <h3 className="text-3xl font-bold mb-8 text-[#C8FF5C]">🎓 Certification Achievements </h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-[#C8FF5C]">🎓 Certification Achievements </h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                 {certifications.map((cert, index) => (
                   <div
                     key={cert.id}
-                    className={`group relative backdrop-blur-xl border rounded-3xl p-6 transition-all duration-500 overflow-hidden hover:shadow-2xl hover:-translate-y-2 ${
+                    className={`group relative backdrop-blur-xl border rounded-2xl md:rounded-3xl p-3 md:p-6 transition-all duration-500 overflow-hidden hover:shadow-2xl hover:-translate-y-2 ${
                       theme === 'dark'
                         ? `bg-gradient-to-br from-[#1a1a1a]/80 to-[#0d0d0d]/60 ${cert.borderColor} hover:border-[#C8FF5C]/50 hover:shadow-[#C8FF5C]/10`
                         : `bg-white border-gray-200 hover:border-[#C8FF5C]/60 hover:shadow-[#C8FF5C]/20`
                     }`}
                     style={{ transitionDelay: `${index * 50}ms` }}
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`} />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl md:rounded-3xl`} />
                     
                     <div className="relative z-10">
-                      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-lg overflow-hidden ${
+                      <div className={`w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center mb-2 md:mb-4 group-hover:scale-110 transition-transform duration-500 shadow-lg overflow-hidden ${
                         theme === 'dark'
                           ? 'bg-gradient-to-br from-[#C8FF5C]/15 to-[#C8FF5C]/5'
                           : 'bg-gradient-to-br from-[#C8FF5C]/30 to-[#C8FF5C]/10'
@@ -921,20 +921,20 @@ const ibmCourses = [
                           <img 
                             src={cert.icon} 
                             alt={cert.title}
-                            className="w-10 h-10 object-contain"
+                            className="w-6 h-6 md:w-10 md:h-10 object-contain"
                           />
                         ) : (
-                          <span className="text-4xl">{cert.icon}</span>
+                          <span className="text-2xl md:text-4xl">{cert.icon}</span>
                         )}
                       </div>
                       
-                      <h3 className={`text-xl font-bold mb-2 tracking-tight group-hover:text-[#C8FF5C] transition-colors duration-300 ${
+                      <h3 className={`text-xs md:text-xl font-bold mb-1 md:mb-2 tracking-tight group-hover:text-[#C8FF5C] transition-colors duration-300 line-clamp-2 ${
                         theme === 'dark' ? 'text-white' : 'text-gray-900'
                       }`}>
                         {cert.title}
                       </h3>
                       
-                      <p className={`text-sm font-medium mb-2 transition-colors duration-300 ${
+                      <p className={`text-[10px] md:text-sm font-medium mb-1 md:mb-2 transition-colors duration-300 ${
                         theme === 'dark'
                           ? 'text-white/60 group-hover:text-white/80'
                           : 'text-gray-600 group-hover:text-gray-800'
@@ -943,7 +943,7 @@ const ibmCourses = [
                       </p>
                       
                       {cert.description && (
-                        <p className={`text-xs mb-3 transition-colors duration-300 ${
+                        <p className={`text-[8px] md:text-xs mb-2 md:mb-3 transition-colors duration-300 hidden md:block ${
                           theme === 'dark'
                             ? 'text-white/50 group-hover:text-white/70'
                             : 'text-gray-500 group-hover:text-gray-700'
@@ -952,8 +952,8 @@ const ibmCourses = [
                         </p>
                       )}
                       
-                      <div className="flex items-center justify-between mt-4">
-                        <div className="inline-block px-3 py-1 bg-[#C8FF5C]/10 border border-[#C8FF5C]/30 rounded-full text-xs text-[#C8FF5C] font-medium">
+                      <div className="flex items-center justify-between mt-2 md:mt-4 gap-1 md:gap-2">
+                        <div className="inline-block px-2 py-0.5 md:px-3 md:py-1 bg-[#C8FF5C]/10 border border-[#C8FF5C]/30 rounded-full text-[8px] md:text-xs text-[#C8FF5C] font-medium">
                           {cert.date}
                         </div>
                         
@@ -961,12 +961,12 @@ const ibmCourses = [
                           href={cert.certificateUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group/btn inline-flex items-center gap-2 px-4 py-2 bg-[#C8FF5C]/20 hover:bg-[#C8FF5C]/30 border border-[#C8FF5C]/40 hover:border-[#C8FF5C]/60 rounded-full text-xs text-[#C8FF5C] font-semibold transition-all duration-300 hover:scale-105"
+                          className="group/btn inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 bg-[#C8FF5C]/20 hover:bg-[#C8FF5C]/30 border border-[#C8FF5C]/40 hover:border-[#C8FF5C]/60 rounded-full text-[8px] md:text-xs text-[#C8FF5C] font-semibold transition-all duration-300 hover:scale-105"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <span>View</span>
                           <svg 
-                            className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform duration-300" 
+                            className="w-2 h-2 md:w-3 md:h-3 group-hover/btn:translate-x-0.5 transition-transform duration-300" 
                             fill="none" 
                             viewBox="0 0 24 24" 
                             stroke="currentColor"
@@ -977,7 +977,7 @@ const ibmCourses = [
                       </div>
                     </div>
 
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-[#C8FF5C]/10 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute top-0 right-0 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-bl from-[#C8FF5C]/10 to-transparent rounded-2xl md:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
                 ))}
               </div>
@@ -1037,6 +1037,25 @@ const ibmCourses = [
                       <span className={`text-xs ${theme === 'dark' ? 'text-white/50' : 'text-gray-500'}`}>Click to see details →</span>
                     </div>
                   </div>
+
+
+                  {/* Main Certificate Button */}
+                  <a
+                    href="/ibm/main cert.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className={`flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 hover:scale-105 ${
+                      theme === 'dark'
+                        ? 'bg-[#C8FF5C] hover:bg-[#b8ef4c] text-black'
+                        : 'bg-[#8ec438] hover:bg-[#7ab32e] text-white'
+                    }`}
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                    <span>Certificate</span>
+                  </a>
                 </div>
 
                 <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
@@ -1340,7 +1359,7 @@ const ibmCourses = [
                         viewBox="0 0 24 24" 
                         stroke="currentColor"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7 7-7-7" />
                       </svg>
                     </div>
                   </div>
@@ -1391,8 +1410,8 @@ const ibmCourses = [
           {/* Main Footer Section */}
           <div className={`py-8 ${
             theme === 'dark' ? 'bg-[#C8FF5C]' : 'bg-[#8ec438]'
-          }`}>
-            <div className="container mx-auto px-6">
+          }`}/>
+            <div className="container mx-auto px-6"/>
               <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                 {/* Left: Contact Info */}
                 <div className="flex flex-col md:flex-row gap-6 text-center md:text-left">
@@ -1470,9 +1489,6 @@ const ibmCourses = [
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
           {/* Copyright Bar - Slightly Darker Green */}
           <div className={`py-4 ${
             theme === 'dark'

@@ -29,8 +29,8 @@ export default function DownloadCVButton({ theme = "dark" }) {
     // Actual download logic
     try {
       const link = document.createElement('a')
-      link.href = '/cv/Mohammed_Shaaz_CV.pdf'
-      link.download = 'Mohammed_Shaaz_CV.pdf'
+      link.href = '/cv/shaaz.pdf'
+      link.download = 'shaaz.pdf'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
