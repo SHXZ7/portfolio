@@ -142,14 +142,14 @@ This is one of my strongest areas, as I've built real AI systems used in full ap
 ]
 
 const stats = [
-  { 
-    id: 'projects',
-    label: 'Projects Completed', 
-    value: '10+',
-    icon: '🚀',
-    color: 'from-blue-500/20 to-cyan-500/20',
-    borderColor: 'rgba(59, 130, 246, 0.3)',
-    description: 'Full-stack applications and ML models'
+    {
+    id: 'hackathons-won',
+    label: 'Hackathons Won',
+    value: '2',
+    icon: '🏆',
+    color: 'from-green-500/20 to-teal-500/20',
+    borderColor: 'rgba(34, 197, 94, 0.3)',
+    description: 'Competition victories'
   },
   { 
     id: 'internships',
@@ -160,19 +160,19 @@ const stats = [
     borderColor: 'rgba(168, 85, 247, 0.3)',
     description: 'Industry experience at top companies'
   },
-  { 
-    id: 'technologies',
-    label: 'Technologies Used', 
-    value: '20+',
-    icon: '⚡',
-    color: 'from-green-500/20 to-teal-500/20',
-    borderColor: 'rgba(34, 197, 94, 0.3)',
-    description: 'Modern frameworks and tools'
+    { 
+    id: 'projects',
+    label: 'Projects Completed', 
+    value: '10+',
+    icon: '🚀',
+    color: 'from-blue-500/20 to-cyan-500/20',
+    borderColor: 'rgba(59, 130, 246, 0.3)',
+    description: 'Full-stack applications and ML models'
   },
   { 
     id: 'events',
     label: 'Hackathons / Events', 
-    value: '3+',
+    value: '5+',
     icon: '🏆',
     color: 'from-orange-500/20 to-red-500/20',
     borderColor: 'rgba(249, 115, 22, 0.3)',
@@ -259,7 +259,7 @@ const internships = [
     id: 1,
     company: 'Vaultofcodes',
     role: 'Full Stack Developer Intern',
-    duration: '2024',
+    duration: 'Jan 25 - March 2025',
     icon: '💼',
     color: 'from-purple-500/20 to-indigo-500/20',
     borderColor: 'border-purple-500/30',
@@ -273,7 +273,7 @@ const internships = [
     id: 2,
     company: 'Shell',
     role: 'Data Analytics & ML Intern',
-    duration: '2024',
+    duration: 'July 25 - August 2025',
     icon: '⚡',
     color: 'from-yellow-500/20 to-orange-500/20',
     borderColor: 'border-yellow-500/30',
@@ -281,6 +281,19 @@ const internships = [
       'Performed full EDA on carbon emissions dataset',
       'Trained predictive ML models and produced interactive analyses',
       'Delivered insights using Python-based visualization dashboards'
+    ]
+  },
+  {
+    id: 3,
+    company: 'INFOSYS SPRINGBOARD',
+    role: 'Data Analytics Intern',
+    duration: 'October 2025 - December 2025',
+    icon: '📊',
+    color: 'from-green-500/20 to-teal-500/20',
+    borderColor: 'border-green-500/30',
+    achievements: [
+      'Analyzed 6.7M+ flight records spanning 16 years to identify temporal, geographic, and operational delay patterns, uncovering key drivers such as weather (35%), carrier operations (40%), and delay propagation',
+      'Engineered 13+ analytical features and delivered airport-, route-, and season-level insights, quantifying 7.4× higher winter cancellations, 2.8× holiday impact, and establishing baseline metrics to support predictive and operational planning'
     ]
   }
 ]
