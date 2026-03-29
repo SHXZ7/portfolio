@@ -4,6 +4,16 @@ import { useState } from 'react'
 export function ExpandableProjectGallery({ projects, theme = 'dark', className = '' }) {
   const [expandedProject, setExpandedProject] = useState(null)
 
+  const getDesktopAlignmentClass = (index) => {
+    // For 9+ cards, create a visually balanced desktop pattern: 4, then 3, then 2.
+    if (projects.length >= 9) {
+      if (index < 4) return 'xl:col-span-3'
+      if (index < 7) return 'xl:col-span-4'
+      if (index < 9) return 'xl:col-span-6'
+    }
+    return 'xl:col-span-4'
+  }
+
   return (
     <>
       {/* Backdrop Modal for Expanded Project */}
@@ -178,11 +188,11 @@ export function ExpandableProjectGallery({ projects, theme = 'dark', className =
 
       {/* Project Cards Grid */}
       <div className={className}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-12 gap-6">
+          {projects.map((project, index) => (
             <motion.div
               key={project.id}
-              className={`group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
+              className={`group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${getDesktopAlignmentClass(index)} ${
                 theme === 'dark'
                   ? 'bg-gradient-to-br from-[#1a1a1a]/80 to-[#0d0d0d]/60 border border-white/10 hover:border-[#C8FF5C]/40 hover:shadow-[#C8FF5C]/10'
                   : 'bg-white border border-gray-200 hover:border-[#C8FF5C]/60 hover:shadow-[#C8FF5C]/20'

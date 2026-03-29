@@ -5,9 +5,10 @@ export function ExpandableProjectGallery({ projects = [], theme = 'dark', classN
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  // Split projects into two rows
+  // Split projects into three rows (4-3-2)
   const firstRowProjects = projects.slice(0, 4);
   const secondRowProjects = projects.slice(4, 7);
+  const thirdRowProjects = projects.slice(7, 9);
 
   const openProject = (index) => {
     setSelectedIndex(index);
@@ -38,19 +39,21 @@ export function ExpandableProjectGallery({ projects = [], theme = 'dark', classN
     return rowHoveredIndex === index ? 2 : 0.5;
   };
 
-  const renderProjectRow = (rowProjects, rowIndex) => {
+  const renderProjectRow = (rowProjects, startIndex) => {
+    const rowHoveredIndex = hoveredIndex === null ? null : hoveredIndex - startIndex;
+
     return (
-      <div className="flex gap-3 h-[500px] w-full">
+      <div className="flex gap-1.5 sm:gap-2 md:gap-3 h-[320px] sm:h-[380px] md:h-[500px] w-full">
         {rowProjects.map((project, index) => {
-          const globalIndex = rowIndex === 0 ? index : 4 + index;
+          const globalIndex = startIndex + index;
           const isHovered = hoveredIndex === globalIndex;
           
           return (
             <motion.div
               key={project.id}
-              className="relative cursor-pointer overflow-hidden rounded-2xl group"
+              className="relative cursor-pointer overflow-hidden rounded-xl md:rounded-2xl group"
               style={{ flex: 1 }}
-              animate={{ flex: getFlexValue(index, rowProjects, hoveredIndex === null ? null : (rowIndex === 0 ? hoveredIndex : hoveredIndex - 4)) }}
+              animate={{ flex: getFlexValue(index, rowProjects, rowHoveredIndex) }}
               transition={{ duration: 0.5, ease: 'easeInOut' }}
               onMouseEnter={() => setHoveredIndex(globalIndex)}
               onMouseLeave={() => setHoveredIndex(null)}
@@ -82,10 +85,10 @@ export function ExpandableProjectGallery({ projects = [], theme = 'dark', classN
               />
 
               {/* Project Info */}
-              <div className="absolute inset-0 p-6 flex flex-col justify-between">
+              <div className="absolute inset-0 p-3 sm:p-4 md:p-6 flex flex-col justify-between">
                 {/* Top: Number */}
                 <div className="flex justify-between items-start">
-                  <span className={`text-sm font-bold ${theme === 'dark' ? 'text-[#C8FF5C]' : 'text-[#8ec438]'}`}>
+                  <span className={`text-xs md:text-sm font-bold ${theme === 'dark' ? 'text-[#C8FF5C]' : 'text-[#8ec438]'}`}>
                     0{project.id}
                   </span>
                   <motion.div
@@ -96,7 +99,7 @@ export function ExpandableProjectGallery({ projects = [], theme = 'dark', classN
                     transition={{ duration: 0.3 }}
                     className={theme === 'dark' ? 'text-white' : 'text-gray-900'}
                   >
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </motion.div>
@@ -105,16 +108,12 @@ export function ExpandableProjectGallery({ projects = [], theme = 'dark', classN
                 {/* Bottom: Title */}
                 <div>
                   <motion.h3 
-                    className={`font-black text-2xl mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
-                    animate={{
-                      fontSize: isHovered ? '28px' : '24px'
-                    }}
-                    transition={{ duration: 0.3 }}
+                    className={`font-black text-base sm:text-lg md:text-2xl md:group-hover:text-[28px] mb-1 md:mb-2 leading-tight transition-all duration-300 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
                   >
                     {project.title}
                   </motion.h3>
                   <motion.p 
-                    className={`text-sm line-clamp-2 ${theme === 'dark' ? 'text-white/80' : 'text-gray-800'}`}
+                    className={`text-[11px] sm:text-xs md:text-sm line-clamp-2 ${theme === 'dark' ? 'text-white/80' : 'text-gray-800'}`}
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ 
                       opacity: isHovered ? 1 : 0,
@@ -135,13 +134,16 @@ export function ExpandableProjectGallery({ projects = [], theme = 'dark', classN
 
   return (
     <div className={className}>
-      {/* Two Row Layout */}
+      {/* Three Row Layout */}
       <div className="space-y-3">
         {/* First Row - 4 Projects */}
         {renderProjectRow(firstRowProjects, 0)}
         
         {/* Second Row - 3 Projects */}
-        {secondRowProjects.length > 0 && renderProjectRow(secondRowProjects, 1)}
+        {secondRowProjects.length > 0 && renderProjectRow(secondRowProjects, 4)}
+
+        {/* Third Row - 2 Projects */}
+        {thirdRowProjects.length > 0 && renderProjectRow(thirdRowProjects, 7)}
       </div>
 
       {/* Expanded View Modal - Theme Aware */}

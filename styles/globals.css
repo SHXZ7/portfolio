@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,8 +11,11 @@
   
   body {
     @apply bg-gray-950 text-white;
+    font-family: var(--font-body);
   }
   :root {
+    --font-heading: 'Clash Display', 'Satoshi', sans-serif;
+    --font-body: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -64,6 +67,16 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-heading {
+    font-family: var(--font-heading);
   }
 }
 
@@ -164,30 +177,11 @@
 /* Custom Scrollbar Styles */
 ::-webkit-scrollbar {
   display: none;
+  width: 0;
+  height: 0;
 }
 * {
   scrollbar-width: none;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(200, 255, 92, 0.3);
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(200, 255, 92, 0.5);
-}
-
-/* Firefox Scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(200, 255, 92, 0.3) rgba(255, 255, 255, 0.05);
 }
 
 /* Completely hide body scrollbar when modal is open */
@@ -210,24 +204,6 @@ html.modal-open {
 html.modal-open::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
-}
-
-/* Optional: Custom scrollbar styling */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #1a1a1a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #C8FF5C;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a8d949;
 }
 
 /* Ensure smooth transitions for scroll-triggered animations */

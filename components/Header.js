@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Navbar() {
@@ -10,6 +10,7 @@ export default function Navbar() {
   const [blobPosition, setBlobPosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileTheme, setMobileTheme] = useState('dark')
   
   const isActive = (path) => {
     return router.pathname === path
@@ -32,10 +33,45 @@ export default function Navbar() {
     setHoveredItem(null)
   }
 
-  // Add useEffect to handle client-side mounting
-  useState(() => {
+  useEffect(() => {
     setMounted(true)
+
+    if (typeof window === 'undefined') return
+
+    const storedTheme = localStorage.getItem('theme')
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      setMobileTheme(storedTheme)
+    }
+
+    const handleThemeChange = (event) => {
+      const nextTheme = event.detail
+      if (nextTheme === 'light' || nextTheme === 'dark') {
+        setMobileTheme(nextTheme)
+      }
+    }
+
+    const handleStorage = (event) => {
+      if (event.key === 'theme' && (event.newValue === 'light' || event.newValue === 'dark')) {
+        setMobileTheme(event.newValue)
+      }
+    }
+
+    window.addEventListener('theme-change', handleThemeChange)
+    window.addEventListener('storage', handleStorage)
+
+    return () => {
+      window.removeEventListener('theme-change', handleThemeChange)
+      window.removeEventListener('storage', handleStorage)
+    }
   }, [])
+
+  const handleMobileThemeToggle = (nextTheme) => {
+    setMobileTheme(nextTheme)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme', nextTheme)
+      window.dispatchEvent(new CustomEvent('theme-change', { detail: nextTheme }))
+    }
+  }
 
   return (
     <>
@@ -229,9 +265,19 @@ export default function Navbar() {
 
       {/* Mobile Navbar */}
       <div className="md:hidden fixed top-4 left-4 right-4 z-50">
-        <header className="bg-black/30 backdrop-blur-xl text-white relative overflow-hidden rounded-3xl border border-white/30 shadow-2xl shadow-black/50">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 rounded-3xl" />
-          <div className="absolute inset-[1px] rounded-[23px] border border-white/10" />
+        <header className={`backdrop-blur-xl relative overflow-hidden rounded-3xl border shadow-2xl transition-colors duration-300 ${
+          mobileTheme === 'dark'
+            ? 'bg-black/30 text-white border-white/30 shadow-black/50'
+            : 'bg-white/75 text-gray-900 border-gray-300/70 shadow-gray-500/20'
+        }`}>
+          <div className={`absolute inset-0 rounded-3xl ${
+            mobileTheme === 'dark'
+              ? 'bg-gradient-to-br from-white/10 via-transparent to-white/5'
+              : 'bg-gradient-to-br from-white/70 via-transparent to-[#e9f7cf]/60'
+          }`} />
+          <div className={`absolute inset-[1px] rounded-[23px] ${
+            mobileTheme === 'dark' ? 'border border-white/10' : 'border border-gray-300/60'
+          }`} />
           
           <nav className="px-4 py-3 relative z-10">
             <div className="flex items-center justify-between">
@@ -255,15 +301,15 @@ export default function Navbar() {
                 <div className="flex flex-col items-center justify-center gap-1.5">
                   <motion.span
                     animate={mobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-                    className="w-6 h-0.5 bg-white rounded-full"
+                    className={`w-6 h-0.5 rounded-full ${mobileTheme === 'dark' ? 'bg-white' : 'bg-gray-900'}`}
                   />
                   <motion.span
                     animate={mobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                    className="w-6 h-0.5 bg-white rounded-full"
+                    className={`w-6 h-0.5 rounded-full ${mobileTheme === 'dark' ? 'bg-white' : 'bg-gray-900'}`}
                   />
                   <motion.span
                     animate={mobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-                    className="w-6 h-0.5 bg-white rounded-full"
+                    className={`w-6 h-0.5 rounded-full ${mobileTheme === 'dark' ? 'bg-white' : 'bg-gray-900'}`}
                   />
                 </div>
               </button>
@@ -279,20 +325,71 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute top-full left-0 right-0 mt-2 bg-black/30 backdrop-blur-xl rounded-3xl border border-white/30 shadow-2xl shadow-black/50 overflow-hidden"
+              className={`absolute top-full left-0 right-0 mt-2 backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden transition-colors duration-300 ${
+                mobileTheme === 'dark'
+                  ? 'bg-black/30 border-white/30 shadow-black/50'
+                  : 'bg-white/80 border-gray-300/70 shadow-gray-500/20'
+              }`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 rounded-3xl" />
-              <div className="absolute inset-[1px] rounded-[23px] border border-white/10" />
+              <div className={`absolute inset-0 rounded-3xl ${
+                mobileTheme === 'dark'
+                  ? 'bg-gradient-to-br from-white/10 via-transparent to-white/5'
+                  : 'bg-gradient-to-br from-white/80 via-transparent to-[#e9f7cf]/65'
+              }`} />
+              <div className={`absolute inset-[1px] rounded-[23px] ${
+                mobileTheme === 'dark' ? 'border border-white/10' : 'border border-gray-300/60'
+              }`} />
               
               <ul className="relative z-10 py-2">
+                <li className="px-4 py-2">
+                  <div className={`rounded-2xl border p-2.5 flex items-center justify-between ${
+                    mobileTheme === 'dark' ? 'border-white/15 bg-white/5' : 'border-gray-300/80 bg-white/70'
+                  }`}>
+                    <span className={`text-xs font-semibold tracking-wide ${
+                      mobileTheme === 'dark' ? 'text-white/80' : 'text-gray-700'
+                    }`}>
+                      Theme
+                    </span>
+                    <div className={`inline-flex rounded-full p-1 ${
+                      mobileTheme === 'dark' ? 'bg-black/30' : 'bg-gray-200/80'
+                    }`}>
+                      <button
+                        type="button"
+                        onClick={() => handleMobileThemeToggle('light')}
+                        className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                          mobileTheme === 'light'
+                            ? 'bg-white text-gray-900 shadow'
+                            : mobileTheme === 'dark'
+                              ? 'text-white/75'
+                              : 'text-gray-600'
+                        }`}
+                      >
+                        Light
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleMobileThemeToggle('dark')}
+                        className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                          mobileTheme === 'dark'
+                            ? 'bg-[#C8FF5C] text-black shadow'
+                            : mobileTheme === 'dark'
+                              ? 'text-white/75'
+                              : 'text-gray-600'
+                        }`}
+                      >
+                        Dark
+                      </button>
+                    </div>
+                  </div>
+                </li>
                 <li>
                   <Link 
                     href="/"
                     onClick={() => setMobileMenuOpen(false)}
                     className={`block px-6 py-3 transition-colors font-medium text-sm ${
                       isActive('/') 
-                        ? 'text-white bg-white/10' 
-                        : 'text-gray-300 hover:text-white hover:bg-white/5'
+                        ? mobileTheme === 'dark' ? 'text-white bg-white/10' : 'text-gray-900 bg-black/5'
+                        : mobileTheme === 'dark' ? 'text-gray-300 hover:text-white hover:bg-white/5' : 'text-gray-700 hover:text-gray-900 hover:bg-black/5'
                     }`}
                   >
                     Home
@@ -304,8 +401,8 @@ export default function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`block px-6 py-3 transition-colors font-medium text-sm ${
                       isActive('/about') 
-                        ? 'text-white bg-white/10' 
-                        : 'text-gray-300 hover:text-white hover:bg-white/5'
+                        ? mobileTheme === 'dark' ? 'text-white bg-white/10' : 'text-gray-900 bg-black/5'
+                        : mobileTheme === 'dark' ? 'text-gray-300 hover:text-white hover:bg-white/5' : 'text-gray-700 hover:text-gray-900 hover:bg-black/5'
                     }`}
                   >
                     About
@@ -317,8 +414,8 @@ export default function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`block px-6 py-3 transition-colors font-medium text-sm ${
                       isActive('/blogs') 
-                        ? 'text-white bg-white/10' 
-                        : 'text-gray-300 hover:text-white hover:bg-white/5'
+                        ? mobileTheme === 'dark' ? 'text-white bg-white/10' : 'text-gray-900 bg-black/5'
+                        : mobileTheme === 'dark' ? 'text-gray-300 hover:text-white hover:bg-white/5' : 'text-gray-700 hover:text-gray-900 hover:bg-black/5'
                     }`}
                   >
                     Achievements
@@ -330,8 +427,8 @@ export default function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`block px-6 py-3 transition-colors font-medium text-sm ${
                       isActive('/projects') 
-                        ? 'text-white bg-white/10' 
-                        : 'text-gray-300 hover:text-white hover:bg-white/5'
+                        ? mobileTheme === 'dark' ? 'text-white bg-white/10' : 'text-gray-900 bg-black/5'
+                        : mobileTheme === 'dark' ? 'text-gray-300 hover:text-white hover:bg-white/5' : 'text-gray-700 hover:text-gray-900 hover:bg-black/5'
                     }`}
                   >
                     Projects
@@ -341,7 +438,11 @@ export default function Navbar() {
                   <Link 
                     href="/contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block bg-white text-black px-6 py-2.5 rounded-full hover:bg-gray-100 transition-colors font-medium text-sm text-center shadow-lg"
+                    className={`block px-6 py-2.5 rounded-full transition-colors font-medium text-sm text-center shadow-lg ${
+                      mobileTheme === 'dark'
+                        ? 'bg-white text-black hover:bg-gray-100'
+                        : 'bg-[#8ec438] text-white hover:bg-[#7ab32e]'
+                    }`}
                   >
                     Contact
                   </Link>

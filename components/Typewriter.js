@@ -1,0 +1,66 @@
+import { useEffect, useState } from 'react'
+
+export default function Typewriter({
+  words,
+  speed = 85,
+  delayBetweenWords = 1700,
+  cursor = true,
+  cursorChar = '|',
+  className = ''
+}) {
+  const [displayText, setDisplayText] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [wordIndex, setWordIndex] = useState(0)
+  const [charIndex, setCharIndex] = useState(0)
+  const [showCursor, setShowCursor] = useState(true)
+
+  const safeWords = Array.isArray(words) && words.length > 0 ? words : ['']
+  const currentWord = safeWords[wordIndex]
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (charIndex < currentWord.length) {
+          setDisplayText(currentWord.substring(0, charIndex + 1))
+          setCharIndex((prev) => prev + 1)
+        } else {
+          setTimeout(() => {
+            setIsDeleting(true)
+          }, delayBetweenWords)
+        }
+      } else if (charIndex > 0) {
+        setDisplayText(currentWord.substring(0, charIndex - 1))
+        setCharIndex((prev) => prev - 1)
+      } else {
+        setIsDeleting(false)
+        setWordIndex((prev) => (prev + 1) % safeWords.length)
+      }
+    }, isDeleting ? speed / 2 : speed)
+
+    return () => clearTimeout(timeout)
+  }, [charIndex, currentWord, delayBetweenWords, isDeleting, safeWords.length, speed])
+
+  useEffect(() => {
+    if (!cursor) return
+
+    const cursorInterval = setInterval(() => {
+      setShowCursor((prev) => !prev)
+    }, 500)
+
+    return () => clearInterval(cursorInterval)
+  }, [cursor])
+
+  return (
+    <span className={className}>
+      {displayText}
+      {cursor && (
+        <span
+          className="ml-1 transition-opacity duration-75"
+          style={{ opacity: showCursor ? 1 : 0 }}
+        >
+          {cursorChar}
+        </span>
+      )}
+    </span>
+  )
+}
