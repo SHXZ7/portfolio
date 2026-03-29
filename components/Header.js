@@ -19,9 +19,10 @@ export default function Navbar() {
   const handleMouseEnter = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const parentRect = e.currentTarget.closest('nav').getBoundingClientRect()
+    const touchAlignmentOffset = 16
     
     setBlobPosition({
-      x: rect.left - parentRect.left + rect.width / 2,
+      x: rect.left - parentRect.left + rect.width / 2 - touchAlignmentOffset,
       y: rect.top - parentRect.top + rect.height / 2,
       width: rect.width,
       height: rect.height
@@ -115,9 +116,9 @@ export default function Navbar() {
                     scale: { duration: 0.3 }
                   }}
                   style={{
-                    background: 'radial-gradient(ellipse, rgba(34, 211, 238, 0.4) 0%, rgba(6, 182, 212, 0.3) 30%, rgba(8, 145, 178, 0.15) 60%, transparent 100%)',
+                    background: 'radial-gradient(ellipse, rgba(200, 255, 92, 0.4) 0%, rgba(168, 217, 73, 0.3) 30%, rgba(111, 152, 40, 0.15) 60%, transparent 100%)',
                     filter: 'blur(20px) saturate(1.5)',
-                    boxShadow: '0 0 60px rgba(34, 211, 238, 0.6), 0 0 100px rgba(6, 182, 212, 0.3), inset 0 0 30px rgba(34, 211, 238, 0.3)',
+                    boxShadow: '0 0 60px rgba(200, 255, 92, 0.5), 0 0 100px rgba(168, 217, 73, 0.3), inset 0 0 30px rgba(200, 255, 92, 0.25)',
                     transform: 'translate(-50%, -50%)',
                     mixBlendMode: 'screen',
                   }}
@@ -150,7 +151,7 @@ export default function Navbar() {
                   opacity: { duration: 0.4 }
                 }}
                 style={{
-                  background: 'radial-gradient(ellipse, rgba(34, 211, 238, 0.2) 0%, transparent 70%)',
+                  background: 'radial-gradient(ellipse, rgba(200, 255, 92, 0.22) 0%, transparent 70%)',
                   filter: 'blur(30px)',
                   transform: 'translate(-50%, -50%)',
                 }}

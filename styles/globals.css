@@ -15,6 +15,14 @@
     font-family: var(--font-body);
     overscroll-behavior: none;
   }
+
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
   :root {
     --font-heading: 'Clash Display', 'Satoshi', sans-serif;
     --font-body: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
