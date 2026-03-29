@@ -58,6 +58,14 @@ export default function Home() {
     }
   }, [])
 
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+
+    const pageBg = theme === 'dark' ? '#0f0f0f' : '#f8f9fa'
+    document.documentElement.style.backgroundColor = pageBg
+    document.body.style.backgroundColor = pageBg
+  }, [theme])
+
   // Lock scroll when modal is open
   useEffect(() => {
     if (showCourseDetails) {

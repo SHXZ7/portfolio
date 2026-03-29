@@ -7,11 +7,13 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overscroll-behavior: none;
   }
   
   body {
     @apply bg-gray-950 text-white;
     font-family: var(--font-body);
+    overscroll-behavior: none;
   }
   :root {
     --font-heading: 'Clash Display', 'Satoshi', sans-serif;
