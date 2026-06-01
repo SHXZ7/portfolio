@@ -3,155 +3,185 @@
 import { useState } from "react"
 
 export default function DownloadCVButton({ theme = "dark" }) {
-  const [downloadStatus, setDownloadStatus] = useState("idle")
+  const [status, setStatus]     = useState("idle")   // idle | loading | done
   const [progress, setProgress] = useState(0)
 
-  const handleDownload = async () => {
-    setDownloadStatus("downloading")
+  const isDark = theme === "dark"
+  
+  // Custom theme-based colors to guarantee perfect contrast on light cream backgrounds
+  const ACCENT   = isDark ? "#C8FF5C" : "#3b522a" // Rich moss green in light mode
+  const ACCENT_D = isDark ? "#a8e63c" : "#233319"
+
+  const handleDownload = () => {
+    if (status !== "idle") return
+    setStatus("loading")
     setProgress(0)
 
-    // Simulate download progress
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval)
-          setDownloadStatus("downloaded")
+          setStatus("done")
           setTimeout(() => {
-            setDownloadStatus("complete")
-            setTimeout(() => setDownloadStatus("idle"), 1000)
-          }, 1500)
+            setStatus("idle")
+            setProgress(0)
+          }, 2200)
           return 100
         }
-        return prev + 10
+        return prev + 8
       })
-    }, 100)
+    }, 80)
 
-    // Actual download logic
     try {
-      const link = document.createElement('a')
-      link.href = '/cv/shaaz.pdf'
-      link.download = 'shaaz.pdf'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    } catch (error) {
-      console.error('Download failed:', error)
-      setDownloadStatus("idle")
-      clearInterval(interval)
+      const a = document.createElement("a")
+      a.href = "/cv/shaaz.pdf"
+      a.download = "Mohammed_Shaaz_CV.pdf"
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    } catch (e) {
+      console.error(e)
     }
   }
 
+  // SVG ring params
+  const R   = 11
+  const C   = 2 * Math.PI * R          // circumference ≈ 69.1
+  const dash = (progress / 100) * C
+
   return (
-    <button
-      onClick={handleDownload}
-      className={`relative overflow-hidden backdrop-blur-xl border transition-all duration-300 shadow-lg group ${
-        theme === "dark"
-          ? "bg-[#1a1a1a]/30 border-white/10 hover:border-[#C8FF5C]/50 shadow-black/20 hover:shadow-[#C8FF5C]/20"
-          : "bg-white/90 border-gray-200/50 hover:border-[#C8FF5C]/60 shadow-gray-200/50 hover:shadow-[#C8FF5C]/30"
-      } ${downloadStatus === "downloading" && "pointer-events-none"} rounded-lg px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3`}
-      disabled={downloadStatus !== "idle" && downloadStatus !== "complete"}
-    >
-      {/* Subtle gradient overlay */}
-      <div
-        className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
-          theme === "dark"
-            ? "bg-gradient-to-b from-white/[0.03] to-transparent"
-            : "bg-gradient-to-b from-gray-50/50 to-transparent"
-        }`}
-      />
+    <>
+      <button
+        onClick={handleDownload}
+        disabled={status === "loading"}
+        style={{
+          position:        "relative",
+          display:         "inline-flex",
+          alignItems:      "center",
+          justifyContent:  "center",
+          width:           "40px",
+          height:          "40px",
+          borderRadius:    "50%",
+          border:          `1.5px solid ${isDark ? "rgba(200,255,92,0.35)" : "rgba(59,82,42,0.40)"}`,
+          background:      isDark
+            ? "rgba(200,255,92,0.06)"
+            : "rgba(59,82,42,0.08)",
+          cursor:          status === "loading" ? "default" : "pointer",
+          backdropFilter:  "blur(12px)",
+          transition:      "border-color 0.25s, box-shadow 0.25s, background 0.25s",
+          overflow:        "hidden",
+          userSelect:      "none",
+          outline:         "none",
+          padding:         0,
+        }}
+        onMouseEnter={(e) => {
+          if (status !== "loading") {
+            e.currentTarget.style.borderColor  = ACCENT
+            e.currentTarget.style.background   = isDark ? "rgba(200,255,92,0.12)" : "rgba(59,82,42,0.15)"
+            e.currentTarget.style.boxShadow    = isDark 
+              ? `0 0 15px rgba(200,255,92,0.25)` 
+              : `0 0 15px rgba(59,82,42,0.20)`
+          }
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor  = isDark ? "rgba(200,255,92,0.35)" : "rgba(59,82,42,0.40)"
+          e.currentTarget.style.background   = isDark ? "rgba(200,255,92,0.06)" : "rgba(59,82,42,0.08)"
+          e.currentTarget.style.boxShadow    = "none"
+        }}
+        aria-label="Download CV"
+      >
+        {/* ── Progress fill overlay ── */}
+        {status === "loading" && (
+          <span
+            style={{
+              position:   "absolute",
+              bottom:     0,
+              left:       0,
+              height:     "100%",
+              width:      "100%",
+              background: isDark ? "rgba(200,255,92,0.03)" : "rgba(59,82,42,0.04)",
+              pointerEvents: "none",
+            }}
+          />
+        )}
 
-      {/* Hover gradient effect */}
-      <div 
-        className={`absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100 pointer-events-none ${
-          theme === "dark"
-            ? "bg-gradient-to-r from-[#C8FF5C]/5 to-transparent"
-            : "bg-gradient-to-r from-[#C8FF5C]/10 to-transparent"
-        }`}
-      />
+        {/* ── Icon / Ring Centered ── */}
+        <span
+          style={{
+            width: 24, height: 24,
+            display:        "flex",
+            alignItems:     "center",
+            justifyContent: "center",
+            flexShrink:     0,
+            position:       "relative",
+          }}
+        >
+          {/* IDLE — download arrow */}
+          {status === "idle" && (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2v8M5 7l3 3 3-3" stroke={ACCENT}
+                strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 13h12" stroke={ACCENT}
+                strokeWidth="1.8" strokeLinecap="round"/>
+            </svg>
+          )}
 
-      {/* Content */}
-      <div className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
-        {downloadStatus === "idle" && (
-          <>
-            <svg className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
-              theme === "dark" 
-                ? "text-white/60 group-hover:text-[#C8FF5C]" 
-                : "text-gray-600 group-hover:text-[#8ec438]"
-            }`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <span className={`font-bold text-xs sm:text-sm transition-colors duration-300 ${
-              theme === "dark" 
-                ? "text-white/80 group-hover:text-[#C8FF5C]" 
-                : "text-gray-800 group-hover:text-[#8ec438]"
-            }`}>
-              <span className="hidden sm:inline">Download CV</span>
-              <span className="sm:hidden">CV</span>
-            </span>
-          </>
-        )}
-        
-        {downloadStatus === "downloading" && (
-          <>
-            <svg className={`w-4 h-4 sm:w-5 sm:h-5 animate-spin ${
-              theme === "dark" ? "text-[#C8FF5C]" : "text-[#8ec438]"
-            }`} fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <span className={`font-bold text-xs sm:text-sm ${
-              theme === "dark" ? "text-[#C8FF5C]" : "text-[#8ec438]"
-            }`}>
-              {progress}%
-            </span>
-          </>
-        )}
-        
-        {downloadStatus === "downloaded" && (
-          <>
-            <svg className={`w-4 h-4 sm:w-5 sm:h-5 ${
-              theme === "dark" ? "text-[#C8FF5C]" : "text-[#8ec438]"
-            }`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <span className={`font-bold text-xs sm:text-sm ${
-              theme === "dark" ? "text-[#C8FF5C]" : "text-[#8ec438]"
-            }`}>
-              Done
-            </span>
-          </>
-        )}
-        
-        {downloadStatus === "complete" && (
-          <>
-            <svg className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
-              theme === "dark" 
-                ? "text-white/60 group-hover:text-[#C8FF5C]" 
-                : "text-gray-600 group-hover:text-[#8ec438]"
-            }`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <span className={`font-bold text-xs sm:text-sm transition-colors duration-300 ${
-              theme === "dark" 
-                ? "text-white/80 group-hover:text-[#C8FF5C]" 
-                : "text-gray-800 group-hover:text-[#8ec438]"
-            }`}>
-              <span className="hidden sm:inline">Download CV</span>
-              <span className="sm:hidden">CV</span>
-            </span>
-          </>
-        )}
-      </div>
+          {/* LOADING — circular progress ring */}
+          {status === "loading" && (
+            <div style={{ position: "relative", width: 24, height: 24 }}>
+              <svg width="24" height="24" viewBox="0 0 28 28" style={{ transform: "rotate(-90deg)", position: "absolute", top: -2, left: -2 }}>
+                {/* track */}
+                <circle cx="14" cy="14" r={R}
+                  fill="none" stroke={isDark ? "rgba(200,255,92,0.12)" : "rgba(59,82,42,0.12)"} strokeWidth="2"/>
+                {/* progress */}
+                <circle cx="14" cy="14" r={R}
+                  fill="none"
+                  stroke={ACCENT}
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeDasharray={`${dash} ${C}`}
+                  style={{ transition: "stroke-dasharray 0.12s linear",
+                    filter: `drop-shadow(0 0 3px ${ACCENT})` }}
+                />
+              </svg>
+              {/* Percent number inside the circle */}
+              <span style={{
+                position: "absolute",
+                top: 0, left: 0, width: "100%", height: "100%",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "8.5px", fontWeight: 800, color: ACCENT
+              }}>
+                {progress}
+              </span>
+            </div>
+          )}
 
-      {/* Download Progress Bar */}
-      {downloadStatus === "downloading" && (
-        <div
-          className={`absolute bottom-0 left-0 h-1 transition-all duration-200 ease-in-out ${
-            theme === "dark" ? "bg-[#C8FF5C]" : "bg-[#8ec438]"
-          }`}
-          style={{ width: `${progress}%` }}
-        />
-      )}
-    </button>
+          {/* DONE — animated checkmark */}
+          {status === "done" && (
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+              <polyline
+                points="3,9 7,13 15,5"
+                stroke={ACCENT}
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{
+                  strokeDasharray: 24,
+                  strokeDashoffset: 0,
+                  animation: "cvCheckDraw 0.4s ease forwards",
+                }}
+              />
+            </svg>
+          )}
+        </span>
+      </button>
+
+      <style jsx global>{`
+        @keyframes cvCheckDraw {
+          from { stroke-dashoffset: 24; }
+          to { stroke-dashoffset: 0; }
+        }
+      `}</style>
+    </>
   )
 }

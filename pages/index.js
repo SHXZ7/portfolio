@@ -1,25 +1,65 @@
 import { useEffect, useState } from 'react'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import Aurora from '../components/Aurora'
 import { MorphingCardStack } from '../components/MorphingCardStack'
-import { ExpandableProjectGallery } from '../components/ExpandableProjectGallery.js'
 import CinematicThemeSwitcher from '../components/CinematicThemeSwitcher'
-import { SocialIcons } from '../components/SocialIcons'
 import DownloadCVButton from '../components/DownloadCVButton'
 import AnimatedContactButton from '../components/AnimatedContactButton'
 import Typewriter from '../components/Typewriter'
+import HeroSection from '../components/HeroSection'
+import { HeroHighlight, Highlight } from '../components/ui/hero-highlight'
+import ProjectsSection from '../components/ProjectsSection'
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [expandedService, setExpandedService] = useState(null)
   const [showCourseDetails, setShowCourseDetails] = useState(false)
-  const [selectedCategory, setSelectedCategory] = useState('All')
-  const [projectFilter, setProjectFilter] = useState('All')
+  const [activeIbmPhase, setActiveIbmPhase] = useState(1)
   const [theme, setTheme] = useState('dark')
+
+  const ibmPhases = [
+    {
+      id: 1,
+      title: "Phase 1: Foundations",
+      subtitle: "AI & Python Basics",
+      description: "Getting started with core AI concepts, prompt engineering, and Python programming fundamentals.",
+      courses: [1, 2, 3, 4]
+    },
+    {
+      id: 2,
+      title: "Phase 2: Analytics & ML",
+      subtitle: "Data & Model Engineering",
+      description: "Developing Flask APIs, cleaning datasets, analyzing data with Pandas/NumPy, and training machine learning models.",
+      courses: [5, 6, 7, 8]
+    },
+    {
+      id: 3,
+      title: "Phase 3: Deep Learning",
+      subtitle: "Neural Networks & NLP",
+      description: "Deep learning models, Transformers architecture, text embeddings, and foundational NLP language models.",
+      courses: [9, 10, 11, 12]
+    },
+    {
+      id: 4,
+      title: "Phase 4: AI Agents",
+      subtitle: "Fine-Tuning & Capstones",
+      description: "Advanced model tuning, parameter efficient learning, building fully custom AI Agents, RAG, and LangChain integration.",
+      courses: [13, 14, 15, 16]
+    }
+  ]
+
+  const { scrollY: pageScrollY } = useScroll()
+  const smoothScrollY = useSpring(pageScrollY, {
+    stiffness: 65,  // Highly organic organic deceleration stiffness
+    damping: 24,    // Well-damped with no overshoot oscillation
+    restDelta: 0.001
+  })
+  const backgroundTextX = useTransform(smoothScrollY, [300, 1600], [-300, 300])
 
   const mobileIntroWords = [
     "Hi, I'm Mohammed Shaaz.",
-    'Data Engineer and Data Analyst.',
-    'I also build full-scale web applications.'
+    'Software Engineer - Frontend / Backend.',
+    'I build production web applications.'
   ]
 
   useEffect(() => {
@@ -370,434 +410,38 @@ const ibmCourses = [
   { id: 16, name: 'Project: Generative AI Applications with RAG and LangChain', duration: '9 hours', grade: 'Not started', certificateUrl: '/ibm/genai16.pdf' }
 ]
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Customer Churn Prediction',
-      shortDescription: 'ML-powered analytics to predict customer retention',
-      category: 'ML',
-      description: 'A predictive analytics project that identifies which customers are likely to stop using a service. Built end-to-end ML pipelines involving EDA, feature engineering, scaling, and multiple models (Logistic Regression, Random Forest, XGBoost). The system evaluates performance using precision, recall, F1, ROC AUC, and exports trained models using pickle for deployment.',
-      features: [
-        'Exploratory Data Analysis (EDA) on large customer datasets',
-        'Advanced feature engineering and data preprocessing',
-        'Multiple classification models (Logistic Regression, Random Forest, XGBoost)',
-        'Comprehensive model evaluation (Precision, Recall, F1, ROC AUC)',
-        'Model export using pickle for production deployment',
-        'Real-time prediction API using FastAPI'
-      ],
-      tech: ['Python', 'Scikit-Learn', 'XGBoost', 'Pandas', 'NumPy', 'Flask', 'FastAPI'],
-      highlights: [
-        'Built 3 classification models and compared results',
-        'Cleaned + processed large customer datasets',
-        'Exported ML models for production use',
-        'Achieved 85%+ accuracy in churn prediction'
-      ],
-      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      github: 'https://github.com/SHXZ7/churn_prediction.git',
-      demo: '#'
-    },
-    {
-      id: 2,
-      title: 'MedPrompt+ Health Assistant',
-      shortDescription: 'AI-powered health assistant with multi-modal capabilities',
-      category: 'Full Stack',
-      description: 'A fully functional AI health assistant that predicts medical risk, chats with an AI doctor, parses medical PDFs/images, and visualizes health trends. Combined Machine Learning, LLM AI, PDF parsing, OCR, RAG, and data visualization into one integrated system.',
-      features: [
-        'Health risk prediction (Low/Moderate/High)',
-        'AI Chat Assistant with memory and context',
-        'Voice input with speech-to-text',
-        'Text-to-speech output for responses',
-        'PDF & OCR lab report parsing',
-        'Interactive health trend visualization charts',
-        '7-day AI-generated personalized health plans'
-      ],
-      tech: ['Next.js', 'FastAPI', 'Scikit-Learn', 'Gemini AI', 'OpenRouter', 'Tailwind CSS', 'Python', 'OCR', 'RAG'],
-      highlights: [
-        'Full multi-module dashboard',
-        'ML + LLM + visualization in one system',
-        'Modern UI with dark/light mode',
-        'Real-time health monitoring and alerts'
-      ],
-      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      github: 'https://github.com/SHXZ7/medprompt.git',
-      demo: '#'
-    },
-    {
-      id: 3,
-      title: 'AI Resume Builder',
-      shortDescription: 'Smart resume creation with AI-powered content generation',
-      category: 'AI',
-      description: 'A modern web app that helps users generate, edit, and export professional resumes. The system uses AI to generate job-specific bullet points, correct grammar, and provide suggestions — all in real time.',
-      features: [
-        'AI bullet point generator using Gemini API',
-        'Real-time grammar correction and suggestions',
-        'Multiple professional resume templates',
-        'Live preview with instant updates',
-        'PDF export using jsPDF & html2canvas',
-        'Firebase cloud storage integration',
-        'Anonymous login for quick access',
-        'Dark/light theme support'
-      ],
-      tech: ['Next.js', 'Gemini API', 'Firebase', 'jsPDF', 'html2canvas', 'Tailwind CSS', 'React'],
-      highlights: [
-        'Fully customizable resume editor',
-        'Cloud-synced resume storage',
-        'AI-driven resume content generation',
-        'Export to multiple formats'
-      ],
-      gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      github: 'https://github.com/SHXZ7/airesumebuilder.git',
-      demo: '#'
-    },
-    {
-      id: 4,
-      title: 'EduNova Teaching Platform',
-      shortDescription: 'AI-powered educational platform for modern teachers',
-      category: 'AI',
-      description: 'A powerful educational platform for teachers, integrating AI for lesson planning, content generation, and resource management. Includes community features, real-time chat, file upload, multilingual support, and offline mode for seamless teaching experience.',
-      features: [
-        'AI-powered lesson plan generation',
-        'Smart notes generator (flashcards, mind-maps, summaries)',
-        'File upload with PDF/image text extraction',
-        'Teacher communities with collaboration tools',
-        'Real-time chat with WebSockets',
-        'Offline mode with intelligent caching',
-        'Multilingual lesson translation',
-        'Resource library and management'
-      ],
-      tech: ['FastAPI', 'Next.js', 'MongoDB', 'OpenRouter AI', 'WebSockets', 'Redis', 'Python', 'React'],
-      highlights: [
-        'Complex multi-module architecture',
-        'Real-time chat + resource management',
-        'Advanced AI tools for educators',
-        'Scalable cloud infrastructure'
-      ],
-      gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-      github: 'https://github.com/SHXZ7/teachers-connect.git',
-      demo: 'edunova-rosy.vercel.app'
-    },
-    {
-      id: 5,
-      title: 'AutoFlow',
-      shortDescription: 'Visual Workflow Automation Platform',
-      category: 'AI',
-      description: 'AutoFlow is a visual drag-and-drop workflow automation platform that lets users build automations without writing code. It integrates multiple AI models, communication channels, file systems, and APIs into a real-time execution engine. Users can create automated pipelines for AI tasks, emails, Discord bots, scheduling, reporting, and document processing.',
-      features: [
-        'Visual workflow builder with ReactFlow for drag-and-drop automation design',
-        'AI processing using GPT-4, Claude, Gemini, and Llama models',
-        'Email, Discord, SMS, and social media automation channels',
-        'PDF, Excel, and document parsing with AI analysis capabilities',
-        'Cron-based scheduling for automated task execution',
-        'Real-time workflow execution with detailed logging and monitoring',
-        'Role-based authentication with encrypted credentials management'
-      ],
-      tech: ['Next.js', 'ReactFlow', 'Tailwind CSS', 'FastAPI', 'MongoDB', 'JWT', 'APScheduler', 'OpenRouter', 'AI APIs'],
-      highlights: [
-        'No-code workflow automation platform',
-        'Multi-AI model integration',
-        'Real-time execution engine with logs',
-        'Secure credential management with encryption'
-      ],
-      gradient: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
-      github: 'https://github.com/SHXZ7/autofloww.git',
-      demo: 'autofloww-pi.vercel.app'
-    },
-    {
-      id: 6,
-      title: 'AuraHire AI',
-      shortDescription: 'Intelligent Resume-Job Matching System',
-      category: 'Full Stack',
-      description: 'A comprehensive full-stack application featuring a Streamlit frontend and FastAPI backend with PostgreSQL database integration for intelligent resume-job matching. The system uses advanced NLP algorithms, fuzzy matching, and semantic analysis to provide accurate match scores and actionable feedback for job seekers.',
-      features: [
-        'Quick Match with file upload (PDF, DOCX, TXT) and configurable scoring weights',
-        'Advanced skill extraction with 100+ technology skills and fuzzy matching',
-        'Resume Parser with email, phone detection and text statistics',
-        'Job Parser with automatic skill extraction and requirement analysis',
-        'PostgreSQL database with full CRUD operations and match history',
-        'Real-time database visualization across multiple management tabs',
-        'Audit logging system for tracking all operations and activities',
-        'Gap analysis with actionable improvement suggestions'
-      ],
-      tech: ['FastAPI', 'Streamlit', 'PostgreSQL', 'SQLAlchemy 2.0', 'Alembic', 'NLP', 'Pandas', 'Asyncpg', 'Python'],
-      highlights: [
-        'Advanced matching algorithm with 70% skills + 30% semantic scoring',
-        '100+ skill dictionary with variations and synonyms',
-        'Complete database persistence with deduplication',
-        'Professional multi-tab interface with real-time updates'
-      ],
-      gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-      github: 'https://github.com/SHXZ7/AuraHire-AI.git',
-      demo: 'https://aurahire-ai-xs4z7kkrlazyrbnpssquvx.streamlit.app/'
-    },
-    {
-      id: 7,
-      title: 'AirFly - Flight Delay Analysis',
-      shortDescription: 'Comprehensive flight delay pattern analysis across 16 years',
-      category: 'Data Analytics',
-      description: 'A comprehensive data analytics project analyzing flight delay patterns across multiple datasets spanning from 2008 to 2024. The project provides deep insights into delay causes, seasonal trends, airline performance, geographic patterns, and cancellation analysis using advanced statistical methods and visualizations.',
-      features: [
-        'Multi-dataset integration: 6.7M+ flight records across 2008-2024 timespan',
-        'Advanced preprocessing with feature engineering: temporal, route, and delay indicators',
-        'Comprehensive EDA with univariate, bivariate, and correlation analysis',
-        'Geographic intelligence: route-level analysis with coordinate mapping',
-        'Seasonal pattern analysis: winter vs non-winter impact (7.4x factor)',
-        'Cancellation breakdown: weather (48.5%), carrier (38.9%), NAS (12.6%)',
-        'Airport performance ranking with delay heatmaps and temporal patterns',
-        'Statistical insights: 99.97% flight completion rate, peak delay identification'
-      ],
-      tech: ['Python', 'Pandas', 'NumPy', 'Jupyter Notebook', 'Matplotlib', 'Seaborn', 'Statistical Analysis'],
-      highlights: [
-        '7-week comprehensive analysis covering 1.9M+ flights',
-        'Geographic mapping with 50+ airports and coordinate integration',
-        'Advanced visualization portfolio with 40+ professional charts',
-        'Business intelligence ready with actionable operational insights'
-      ],
-      gradient: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
-      github: 'https://github.com/SHXZ7/AirFly_-_Mohammed-Shaaz',
-      demo: '#'
-    },
-    {
-      id: 8,
-      title: 'Olist SQL + Power BI Project',
-      shortDescription: 'End-to-end e-commerce analytics pipeline with SQL modeling and BI dashboards',
-      category: 'Data Analytics',
-      description: 'An end-to-end analytics project on the Olist e-commerce dataset covering source CSV ingestion, SQL transformation modeling, cleaned output generation, and Power BI dashboarding across executive, customer, delivery, product, and seller views.',
-      features: [
-        'Prepared source datasets from raw CSV files for analytics workflows',
-        'Built SQL modeling and transformation scripts for cleaning, joins, and performance analysis',
-        'Exported reporting-ready outputs to cleaned_data for BI consumption',
-        'Developed 5-page Power BI dashboard: executive summary, retention, delivery experience, product insights, seller performance',
-        'Analyzed 99,441 orders with delivery, review, and retention metrics',
-        'Created decision-focused recommendations for retention and fulfillment improvement'
-      ],
-      tech: ['SQL', 'PostgreSQL', 'Power BI', 'Python', 'Jupyter', 'CSV', 'Data Modeling'],
-      highlights: [
-        'Integrated multi-table Olist datasets into analysis-ready outputs',
-        'Identified seasonality trends and Q4 repeat-customer drop signals',
-        'Connected delivery delays and low review scores to CX risk',
-        'Produced actionable seller and retention strategy recommendations'
-      ],
-      gradient: 'linear-gradient(135deg, #43cea2 0%, #185a9d 100%)',
-      github: '#',
-      demo: '#'
-    },
-    {
-      id: 9,
-      title: 'Real-Time Movie Recommendation System',
-      shortDescription: 'Low-latency personalized recommendations with collaborative filtering and FAISS retrieval',
-      category: 'ML',
-      description: 'A production-style recommendation system that trains on implicit feedback, evaluates against a popularity baseline, serves low-latency recommendations through FastAPI, and captures real-time user feedback for future retraining.',
-      features: [
-        'Collaborative filtering model with matrix factorization for personalized ranking',
-        'Popularity baseline for controlled offline benchmarking',
-        'ANN retrieval using FAISS for millisecond-scale recommendation serving',
-        'FastAPI service for real-time inference endpoints',
-        'Interactive Streamlit demo UI for recommendation exploration',
-        'Feedback logging pipeline to support continuous improvement cycles'
-      ],
-      tech: ['Python', 'FastAPI', 'FAISS', 'Streamlit', 'Docker', 'Collaborative Filtering', 'ANN Search'],
-      highlights: [
-        'Precision@10 improved from 0.0387 (baseline) to 0.0818',
-        'Recall@10 improved from 0.0260 to 0.0438',
-        'NDCG@10 improved from 0.0412 to 0.0888',
-        'Designed for scalable retrieval and production-oriented tradeoffs'
-      ],
-      gradient: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
-      github: '#',
-      demo: '#'
-    }
-  ]
-
-  // Filter projects based on selected category
-  const filteredProjects = projectFilter === 'All' 
-    ? projects 
-    : projects.filter(project => project.category === projectFilter)
-
-  // Get unique categories from projects
-  const categories = ['All', ...new Set(projects.map(p => p.category))]
-
   return (
     <>
-      {/* Theme Switcher - Fixed Top Left (Hidden on Mobile) */}
-      <div className="hidden md:block fixed top-6 left-6 z-50">
-        <CinematicThemeSwitcher onThemeChange={setTheme} />
-      </div>
-
-      {/* CV Download Button - Bottom Right on Mobile, Top Right on Desktop */}
-      <div className="fixed bottom-4 right-4 md:bottom-auto md:top-8 md:right-6 z-50">
-        <DownloadCVButton theme={theme} />
-      </div>
-
       {/* Contact Button - Fixed Bottom Left */}
       <div className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50 scale-75 sm:scale-90 md:scale-100">
         <AnimatedContactButton theme={theme} />
       </div>
 
-      {/* Social Icons - Fixed Bottom Center */}
-      <div className="fixed bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-50 scale-75 sm:scale-90 md:scale-100">
-        <SocialIcons theme={theme} />
-      </div>
-
-      {/* Hero Section */}
-      <div className={`min-h-screen relative overflow-hidden transition-colors duration-700 ${
-        theme === 'dark' ? 'bg-[#1a1a1a] text-white' : 'bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef] text-gray-900'
-      }`}>
-        {/* Aurora Background - only show in dark mode */}
-        {theme === 'dark' && (
-          <Aurora 
-            colorStops={['#1a1a1a', '#C8FF5C', '#1a1a1a']}
-            amplitude={0.8}
-            blend={0.6}
-            speed={0.5}
-          />
-        )}
-
-        <div className="container mx-auto px-6 md:px-8 relative z-10 min-h-screen pt-24 pb-20 flex items-center">
-          {/* Main Typography Layout */}
-          <div className="w-full relative px-4 md:px-0">
-            {/* Top Side - NAME & DATA (Hidden on Mobile) */}
-            <div 
-              className="hidden md:block absolute left-[-10%] top-1/2 -translate-y-1/2 z-10 transition-all duration-700"
-              style={{ 
-                opacity: 1 - scrollY / 500,
-                transform: `translate(-${scrollY / 5}px, -50%)`
-              }}
-            >
-              <p className={`font-heading text-[8px] sm:text-[10px] md:text-[13px] uppercase tracking-[0.2em] sm:tracking-[0.25em] md:tracking-[0.3em] mb-2 sm:mb-3 md:mb-4 font-semibold animate-fadeIn ${
-                theme === 'dark' ? 'text-white/60' : 'text-gray-600'
-              }`}>
-                MOHAMMED SHAAZ
-              </p>
-              <h1 className={`text-[50px] sm:text-[65px] md:text-[clamp(70px,10vw,160px)] font-black leading-[0.85] tracking-[-0.03em] animate-slideInLeft`} style={{ fontWeight: 900 }}>
-                DATA 
-              </h1>
-            </div>
-
-            {/* Bottom Side - SCIENCE (Hidden on Mobile) */}
-            <div 
-              className="hidden md:block absolute right-[-11%] top-1/2 -translate-y-1/2 z-10 transition-all duration-700 text-right"
-              style={{ 
-                opacity: 1 - scrollY / 500,
-                transform: `translate(${scrollY / 5}px, -50%)`
-              }}
-            >
-              <h1 className={`text-[50px] sm:text-[65px] md:text-[clamp(70px,10vw,160px)] font-black leading-[0.85] tracking-[-0.03em] animate-slideInRight`} style={{ fontWeight: 900 }}>
-                SCIENCE
-              </h1>
-              <p className={`text-[10px] sm:text-xs md:text-sm mt-2 sm:mt-3 md:mt-3 max-w-[200px] sm:max-w-[240px] md:max-w-md mx-auto md:mx-0 md:ml-auto font-bold leading-relaxed animate-fadeIn opacity-0 ${
-                theme === 'dark' ? 'text-white/80' : 'text-gray-700'
-              }`} style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}>
-                I'm an Indian-based Data Analyst and Machine Learning enthusiast
-              </p>
-            </div>
-
-            {/* Mobile Intro Typewriter */}
-            <div
-              className="md:hidden absolute left-1/2 top-[50%] sm:top-[46%] -translate-x-1/2 -translate-y-1/2 z-20 w-[90vw] max-w-[420px] transition-all duration-700"
-              style={{
-                opacity: 1 - scrollY / 420,
-                transform: `translate(-50%, calc(-50% - ${scrollY / 3}px))`
-              }}
-            >
-              <div className={`relative rounded-3xl border backdrop-blur-xl px-5 pt-9 pb-7 shadow-2xl overflow-visible ${
-                theme === 'dark'
-                  ? 'bg-black/40 border-white/15 shadow-black/50'
-                  : 'bg-white/75 border-gray-300/70 shadow-gray-400/30'
-              }`}>
-                <div className="absolute -top-7 left-2 z-0 rotate-[-12deg] animate-bounceIn pointer-events-none" style={{ animationDelay: '0.25s' }}>
-                  <div className="relative">
-                    <div className="absolute inset-0 rounded-full blur-xl opacity-40 bg-[#C8FF5C]" />
-                    <div className="w-[62px] h-[62px] sm:w-[72px] sm:h-[72px] bg-[#C8FF5C] rounded-full flex items-center justify-center shadow-2xl border border-[#e8ffb1]/60">
-                      <span className="text-[#1a1a1a] text-[28px] sm:text-[32px] font-bold">Hi</span>
-                    </div>
-                    <div className="absolute -bottom-1.5 left-7 sm:left-8 w-0 h-0 
-                      border-l-[9px] border-l-transparent 
-                      border-r-[9px] border-r-transparent 
-                      border-t-[12px] border-t-[#C8FF5C] 
-                      rotate-[20deg]">
-                    </div>
-                  </div>
-                </div>
-                <div className="relative z-10">
-                <p className={`text-[11px] uppercase tracking-[0.18em] font-semibold mb-3 ${
-                  theme === 'dark' ? 'text-[#C8FF5C]/90' : 'text-[#6f9828]'
-                }`}>
-                  INTRO
-                </p>
-                <h1 className={`text-[30px] leading-[1.2] font-extrabold mb-3 ${
-                  theme === 'dark' ? 'text-white' : 'text-gray-900'
-                }`}>
-                  Mohammed Shaaz
-                </h1>
-                <p className={`text-base leading-relaxed min-h-[96px] ${
-                  theme === 'dark' ? 'text-white/85' : 'text-gray-800'
-                }`}>
-                  <Typewriter
-                    words={mobileIntroWords}
-                    speed={60}
-                    delayBetweenWords={1700}
-                    cursor={true}
-                    cursorChar="|"
-                  />
-                </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Center Portrait */}
-            <div 
-              className="hidden md:block absolute left-[42%] top-[40%] sm:top-[42%] md:top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-700"
-              style={{ 
-                opacity: 1 - scrollY / 400,
-                transform: `translate(-50%, calc(-50% - ${scrollY / 3}px)) scale(${1 - scrollY / 2000})`
-              }}
-            >
-              <div className="w-[180px] h-[240px] sm:w-[220px] sm:h-[300px] md:w-[270px] md:h-[370px] lg:w-[310px] lg:h-[420px] rounded-[20px] overflow-hidden shadow-2xl bg-[#f5f5f5] animate-scaleIn transition-transform hover:scale-105 duration-300">
-                <img
-                  src="/shaaz.jpg"
-                  alt="Mohammed Shaaz Sharafuddin"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.backgroundColor = '#f5f5f5'
-                    e.target.src = '/shaaz.jpg'
-                  }}
-                />
-              </div>
-
-              {/* Speech Bubble "Hi" */}
-              <div className="absolute -bottom-6 -left-6 sm:-bottom-8 sm:-left-8 md:-bottom-10 md:-left-10 z-40 animate-bounceIn" style={{ animationDelay: '0.5s' }}>
-                <div className="relative group cursor-pointer">
-                  <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] md:w-[130px] md:h-[130px] lg:w-[150px] lg:h-[150px] bg-[#C8FF5C] rounded-full flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110 duration-300">
-                    <span className="text-[#1a1a1a] text-[28px] sm:text-[36px] md:text-[46px] lg:text-[52px] font-semibold">Hi</span>
-                  </div>
-                  <div className="absolute -bottom-1.5 sm:-bottom-2 left-8 sm:left-10 md:left-12 lg:left-16 w-0 h-0 
-                    border-l-[10px] sm:border-l-[12px] md:border-l-[16px] lg:border-l-[18px] border-l-transparent 
-                    border-r-[10px] sm:border-r-[12px] md:border-r-[16px] lg:border-r-[18px] border-r-transparent 
-                    border-t-[14px] sm:border-t-[16px] md:border-t-[20px] lg:border-t-[22px] border-t-[#C8FF5C] 
-                    rotate-[20deg]">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* ─── STICKY HERO FOR CURTAIN REVEAL ─── */}
+      <div className="relative w-full z-10" style={{ height: '100vh' }}>
+        <div className="sticky top-0 left-0 w-full h-full overflow-hidden">
+          <HeroSection theme={theme} onThemeChange={setTheme} scrollY={scrollY} />
         </div>
       </div>
 
       {/* About Section */}
-      <div id="about" className={`relative overflow-hidden transition-colors duration-700 ${
-        theme === 'dark' 
-          ? 'bg-gradient-to-b from-[#1a1a1a] via-[#0f0f0f] to-black text-white' 
-          : 'bg-gradient-to-b from-white via-gray-50 to-gray-100 text-gray-900'
-      }`}>
-        <div className="container mx-auto px-6 py-20 md:py-32">
+      <div 
+        id="about" 
+        className={`relative z-20 overflow-hidden transition-colors duration-700 shadow-none md:shadow-[0_-25px_60px_rgba(0,0,0,0.35)] ${
+          theme === 'dark' 
+            ? 'bg-gradient-to-b from-[#050f00] via-[#0a1200] to-[#030800] text-white' 
+            : 'bg-gradient-to-b from-white via-gray-50 to-gray-100 text-gray-900'
+        }`}
+      >
+        <div className="container mx-auto px-6 py-20 md:py-32 relative z-10">
           <div className="max-w-6xl mx-auto">
             {/* About Header */}
-            <div 
-              className="mb-16 transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 200 ? 1 : 0,
-                transform: scrollY > 200 ? 'translateY(0)' : 'translateY(50px)'
-              }}
+            <motion.div 
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-16"
             >
               <h2 className={`text-4xl md:text-7xl font-black mb-6 ${
                 theme === 'dark' 
@@ -807,58 +451,49 @@ const ibmCourses = [
                 About Me
               </h2>
               <div className="w-20 h-1 bg-[#C8FF5C] rounded-full"></div>
-            </div>
+            </motion.div>
 
             {/* About Content */}
-            <div className="grid md:grid-cols-2 gap-12 mb-20">
-              <div 
-                className="transition-all duration-1000 ease-out delay-200"
-                style={{
-                  opacity: scrollY > 300 ? 1 : 0,
-                  transform: scrollY > 300 ? 'translateX(0)' : 'translateX(-50px)'
-                }}
-              >
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-[#C8FF5C]">Who I Am</h3>
-                <p className={`text-base md:text-lg leading-relaxed mb-4 ${
-                  theme === 'dark' ? 'text-white/80' : 'text-gray-700'
-                }`}>
-                  I'm an Electronics and Communication Engineering student with hands-on experience in data analytics, machine learning, and full-stack development
-                </p>
-                <p className={`text-base md:text-lg leading-relaxed ${
-                  theme === 'dark' ? 'text-white/80' : 'text-gray-700'
-                }`}>
-                  I enjoy uncovering meaningful insights from complex datasets and transforming them into real-world solutions. My background includes building AI-driven applications, health prediction systems, and intelligent resume tools, backed by strong problem-solving and communication skills
-                </p>
-              </div>
-
-              <div 
-                className="transition-all duration-1000 ease-out delay-300"
-                style={{
-                  opacity: scrollY > 300 ? 1 : 0,
-                  transform: scrollY > 300 ? 'translateX(0)' : 'translateX(50px)'
-                }}
-              >
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-[#C8FF5C]">What I Do</h3>
-                <p className={`text-base md:text-lg leading-relaxed mb-4 ${
-                  theme === 'dark' ? 'text-white/80' : 'text-gray-700'
-                }`}>
-                  I turn raw data into actionable insights using Python, advanced analytics, and machine learning techniques.
-                </p>
-                <p className={`text-base md:text-lg leading-relaxed ${
-                  theme === 'dark' ? 'text-white/80' : 'text-gray-700'
-                }`}>
-                 I design and develop full-stack applications with frameworks like Next.js and FastAPI, integrating AI models, dashboards, and automation workflows. From predictive modeling to intuitive web interfaces, I help create data-driven solutions that improve decision-making and user experience.
-                </p>
-              </div>
+            <div className="mb-20 overflow-visible">
+              <HeroHighlight containerClassName="bg-transparent dark:bg-transparent min-h-0 h-auto py-4 md:py-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full flex justify-center text-center px-4 md:px-8"
+                >
+                  <p className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-relaxed lg:leading-snug font-extrabold max-w-5xl tracking-wide ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    I'm an Electronics and Communication Engineering undergrad building production-grade systems across the{' '}
+                    <Highlight theme={theme}>
+                      full stack
+                    </Highlight>
+                    {' '}— from data pipelines and{' '}
+                    <Highlight theme={theme}>
+                      ML backends
+                    </Highlight>
+                    {' '}to the interfaces on top. I specialize in{' '}
+                    <Highlight theme={theme}>
+                      AI engineering and data engineering
+                    </Highlight>
+                    : designing systems that ingest, process, and act on data intelligently. Currently shipping tools with{' '}
+                    <Highlight theme={theme}>
+                      Next.js, FastAPI, Python, and LLMs
+                    </Highlight>
+                    .
+                  </p>
+                </motion.div>
+              </HeroHighlight>
             </div>
 
             {/* Skills Section */}
-            <div 
-              className="transition-all duration-1000 ease-out delay-500"
-              style={{
-                opacity: scrollY > 500 ? 1 : 0,
-                transform: scrollY > 500 ? 'translateY(0)' : 'translateY(50px)'
-              }}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="mb-7 md:mb-9 text-center">
                 <p className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.16em] border mb-3 ${
@@ -948,323 +583,452 @@ const ibmCourses = [
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            {/* What I Can Do For You Section */}
-            <div 
-              className="mt-32 transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 900 ? 1 : 0,
-                transform: scrollY > 900 ? 'translateY(0)' : 'translateY(50px)'
-              }}
+            {/* Services (Redesigned Offerings) */}
+            <motion.div 
+              id="expertise"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-32 relative overflow-visible"
             >
-              <div className="max-w-4xl mx-auto">
-                <h2 className="text-4xl md:text-6xl font-black mb-3 md:mb-4 uppercase tracking-tight leading-tight">
-                  What I Can Do For You
-                </h2>
-                <p className={`text-base md:text-lg mb-8 md:mb-12 max-w-2xl ${
-                  theme === 'dark' ? 'text-white/60' : 'text-gray-600'
-                }`}>
-                  As a data scientist and full-stack developer, I craft data-driven solutions that connect insights with innovation
-                </p>
+              <div className="max-w-4xl mx-auto relative z-10">
+                {/* Header styled exactly like screenshot */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="mb-14 text-left"
+                >
+                  <span className={`text-base sm:text-lg uppercase tracking-[0.25em] font-black border-b-2 pb-2 ${
+                    theme === 'dark' ? 'text-[#C8FF5C] border-[#C8FF5C]/35' : 'text-[#8ec438] border-[#8ec438]/35'
+                  }`}>
+                    /SERVICES
+                  </span>
+                </motion.div>
 
-                <div className="space-y-3 md:space-y-4">
-                  {services.map((service, index) => (
-                    <div
-                      key={service.id}
-                      className={`group backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-300 ${
-                        theme === 'dark'
-                          ? 'bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 hover:border-[#C8FF5C]/30'
-                          : 'bg-white/80 border border-gray-200 hover:border-[#C8FF5C]/50 shadow-sm hover:shadow-lg'
-                      }`}
-                      style={{ transitionDelay: `${index * 50}ms` }}
-                    >
-                      <button
-                        onClick={() => setExpandedService(expandedService === service.id ? null : service.id)}
-                        className={`w-full px-4 md:px-8 py-4 md:py-6 flex items-start md:items-center justify-between gap-3 text-left transition-colors duration-300 ${
-                          theme === 'dark' ? 'group-hover:bg-white/[0.02]' : 'group-hover:bg-gray-50/50'
-                        }`}
-                      >
-                        <span className={`text-base sm:text-lg md:text-2xl leading-snug font-bold transition-colors duration-300 ${
+                {/* Accordion Rows List styled exactly like screenshot */}
+                <div className="border-t border-gray-200 dark:border-white/10">
+                  {services.map((service, index) => {
+                    const isExpanded = expandedService === service.id;
+                    
+                    return (
+                      <motion.div
+                        key={service.id}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: index * 0.08 }}
+                        className={`border-b transition-all duration-500 overflow-hidden ${
                           theme === 'dark'
-                            ? 'text-white/90 group-hover:text-[#C8FF5C]'
-                            : 'text-gray-900 group-hover:text-[#8ec438]'
-                        }`}>
-                          {service.title}
-                        </span>
-                        <svg
-                          className={`w-5 h-5 md:w-6 md:h-6 mt-0.5 md:mt-0 flex-shrink-0 transition-all duration-300 ${
-                            expandedService === service.id ? 'rotate-180' : ''
-                          } ${
-                            theme === 'dark'
-                              ? 'text-white/60 group-hover:text-[#C8FF5C]'
-                              : 'text-gray-500 group-hover:text-[#8ec438]'
-                          }`}
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                      
-                      <div
-                        className={`overflow-hidden transition-all duration-300 ${
-                          expandedService === service.id ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
+                            ? 'border-white/10 hover:border-[#C8FF5C]/40'
+                            : 'border-gray-200 hover:border-[#8ec438]/40'
                         }`}
                       >
-                        <div className="px-4 md:px-8 pb-5 md:pb-6 pt-2">
-                          {service.image ? (
-                            <div className="flex flex-col-reverse md:flex-row gap-4 md:gap-8 items-start">
-                              <div className="flex-1">
-                                <p className={`leading-relaxed text-sm md:text-base whitespace-pre-line ${
-                                  theme === 'dark' ? 'text-white/70' : 'text-gray-700'
-                                }`}>
-                                  {service.description}
-                                </p>
-                              </div>
-                              <div className="w-full md:w-[380px] flex-shrink-0">
-                                <div className={`rounded-xl md:rounded-2xl overflow-hidden border p-2 md:p-4 shadow-lg ${
+                        <button
+                          onClick={() => setExpandedService(isExpanded ? null : service.id)}
+                          className="w-full py-8 sm:py-10 flex items-center justify-between gap-6 text-left group relative"
+                          style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                        >
+                          <div className="flex items-center gap-6 sm:gap-10">
+                            {/* Service Number */}
+                            <span className={`text-sm sm:text-base font-mono font-bold ${
+                              theme === 'dark' ? 'text-white/40 group-hover:text-[#C8FF5C]' : 'text-gray-400 group-hover:text-[#8ec438]'
+                            } transition-colors duration-300`}>
+                              0{index + 1}
+                            </span>
+                            
+                            {/* Service Title */}
+                            <span className={`text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tight transition-all duration-300 ${
+                              theme === 'dark' 
+                                ? 'text-white group-hover:text-[#C8FF5C] group-hover:translate-x-2' 
+                                : 'text-gray-900 group-hover:text-[#8ec438] group-hover:translate-x-2'
+                            } transition-transform`}>
+                              {service.title.replace(/^\d+\.\s*/, '')}
+                            </span>
+                          </div>
+
+                          {/* Arrow Container */}
+                          <div className="flex items-center justify-center flex-shrink-0">
+                            <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-all duration-500 ${
+                              theme === 'dark'
+                                ? 'border-white/15 group-hover:border-[#C8FF5C]/50 group-hover:bg-[#C8FF5C] group-hover:text-black text-white/60'
+                                : 'border-gray-200 group-hover:border-[#8ec438]/50 group-hover:bg-[#8ec438] group-hover:text-white text-gray-500'
+                            }`}>
+                              <svg 
+                                className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-500 ${
+                                  isExpanded ? 'rotate-90' : 'group-hover:rotate-45'
+                                }`}
+                                fill="none" 
+                                viewBox="0 0 24 24" 
+                                stroke="currentColor"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                              </svg>
+                            </div>
+                          </div>
+                        </button>
+
+                        {/* Expanded Panel */}
+                        <motion.div
+                          initial={false}
+                          animate={{
+                            height: isExpanded ? 'auto' : 0,
+                            opacity: isExpanded ? 1 : 0,
+                          }}
+                          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pb-8 md:pb-12 pt-2 px-4 sm:px-14 flex flex-col md:flex-row gap-8 md:gap-16 items-start">
+                            <div className="flex-1">
+                              <p className={`leading-relaxed text-sm sm:text-base whitespace-pre-line font-medium ${
+                                theme === 'dark' ? 'text-white/70' : 'text-gray-700'
+                              }`}>
+                                {service.description}
+                              </p>
+                            </div>
+                            
+                            {service.image && (
+                              <div className="w-full md:w-[320px] flex-shrink-0">
+                                <div className={`rounded-3xl overflow-hidden border p-3 shadow-2xl transition-transform duration-500 hover:scale-[1.02] ${
                                   theme === 'dark'
-                                    ? 'border-[#C8FF5C]/20 bg-gradient-to-br from-white/5 to-transparent shadow-[#C8FF5C]/10'
-                                    : 'border-[#C8FF5C]/30 bg-white shadow-[#C8FF5C]/20'
+                                    ? 'border-[#C8FF5C]/20 bg-gradient-to-br from-white/5 to-transparent shadow-[#C8FF5C]/5'
+                                    : 'border-[#8ec438]/20 bg-white shadow-gray-200'
                                 }`}>
                                   <img 
                                     src={service.image} 
                                     alt={service.title}
-                                    className="w-full h-auto max-h-[200px] md:max-h-none object-contain rounded-lg md:rounded-xl"
+                                    className="w-full h-auto object-cover rounded-2xl"
                                   />
                                 </div>
                               </div>
-                            </div>
-                          ) : (
-                            <p className={`leading-relaxed text-sm md:text-base whitespace-pre-line ${
-                              theme === 'dark' ? 'text-white/70' : 'text-gray-700'
-                            }`}>
-                              {service.description}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                            )}
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
 
-      {/* Achievements Section */}
-      <div id="achievements" className={`relative overflow-hidden scroll-mt-20 transition-colors duration-700 ${
-        theme === 'dark'
-          ? 'bg-gradient-to-b from-black via-[#0f0f0f] to-[#1a1a1a] text-white'
-          : 'bg-gradient-to-b from-gray-100 via-gray-50 to-white text-gray-900'
-      }`}>
-        <div className="container mx-auto px-6 py-20 md:py-32">
-          <div className="max-w-7xl mx-auto">
+      {/* Achievements & Certifications Section */}
+      <div 
+        id="achievements" 
+        className={`relative overflow-hidden scroll-mt-20 transition-colors duration-700 ${
+          theme === 'dark'
+            ? 'bg-gradient-to-b from-black via-[#0a0a0a] to-[#040404] text-white'
+            : 'bg-gradient-to-b from-gray-100 via-gray-50 to-white text-gray-900'
+        }`}
+      >
+        <div className="container mx-auto px-6 py-12 md:py-20 relative z-10">
+          <div className="max-w-6xl mx-auto">
             {/* Achievements Header */}
-            <div 
-              className="mb-16 transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 1200 ? 1 : 0,
-                transform: scrollY > 1200 ? 'translateY(0)' : 'translateY(50px)'
-              }}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-10 text-left"
             >
-              <h2 className={`text-5xl md:text-7xl font-black mb-6 ${
-                theme === 'dark'
-                  ? 'bg-gradient-to-r from-[#C8FF5C] to-white bg-clip-text text-transparent'
-                  : 'bg-gradient-to-r from-[#8ec438] to-gray-900 bg-clip-text text-transparent'
+              <span className={`text-sm sm:text-[15px] uppercase tracking-[0.2em] font-black border-b pb-1.5 ${
+                theme === 'dark' ? 'text-[#C8FF5C] border-[#C8FF5C]/30' : 'text-[#8ec438] border-[#8ec438]/30'
+              }`}>
+                /CREDENTIALS
+              </span>
+              <h2 className={`text-4xl md:text-[52px] font-black mt-3 md:mt-4 tracking-tight leading-tight ${
+                theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>
                 Achievements & Certifications
               </h2>
-              <div className="w-20 h-1 bg-[#C8FF5C] rounded-full"></div>
-              <p className={`text-lg mt-6 max-w-2xl ${
-                theme === 'dark' ? 'text-white/60' : 'text-gray-600'
+              <p className={`text-base sm:text-lg mt-3 md:mt-4 max-w-3xl font-medium leading-relaxed ${
+                theme === 'dark' ? 'text-white/50' : 'text-gray-600'
               }`}>
-                Academic excellence and professional certifications that showcase my commitment to continuous learning and skill development
+                Academic honors and professional certifications that showcase my commitment to continuous learning and advanced technical skill development.
               </p>
-            </div>
+            </motion.div>
 
             {/* Certifications Grid */}
-            <div 
-              className="transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 1300 ? 1 : 0,
-                transform: scrollY > 1300 ? 'translateY(0)' : 'translateY(50px)'
-              }}
-            >
-              <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-[#C8FF5C]">🎓 Certification Achievements </h3>
-              
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+            <div className="mb-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
                 {certifications.map((cert, index) => (
-                  <div
+                  <motion.div
                     key={cert.id}
-                    className={`group relative backdrop-blur-xl border rounded-2xl md:rounded-3xl p-3 md:p-6 transition-all duration-500 overflow-hidden hover:shadow-2xl hover:-translate-y-2 ${
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ type: "spring", stiffness: 85, damping: 18, delay: index * 0.05 }}
+                    whileHover={{ 
+                      y: -4, 
+                      scale: 1.012,
+                      transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
+                    }}
+                    className={`group relative backdrop-blur-3xl border rounded-2xl p-4 flex flex-col justify-between min-h-[238px] transition-all duration-500 overflow-hidden hover:shadow-md ${
                       theme === 'dark'
-                        ? `bg-gradient-to-br from-[#1a1a1a]/80 to-[#0d0d0d]/60 ${cert.borderColor} hover:border-[#C8FF5C]/50 hover:shadow-[#C8FF5C]/10`
-                        : `bg-white border-gray-200 hover:border-[#C8FF5C]/60 hover:shadow-[#C8FF5C]/20`
+                        ? `bg-gradient-to-br from-[#121212]/95 via-[#0a0a0a]/98 to-black/95 ${cert.borderColor} hover:border-[#C8FF5C]/35 hover:shadow-[#C8FF5C]/5`
+                        : `bg-white/95 border-gray-200/70 hover:border-[#8ec438]/45 hover:shadow-gray-200/30`
                     }`}
-                    style={{ transitionDelay: `${index * 50}ms` }}
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl md:rounded-3xl`} />
-                    
-                    <div className="relative z-10">
-                      <div className={`w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center mb-2 md:mb-4 group-hover:scale-110 transition-transform duration-500 shadow-lg overflow-hidden ${
-                        theme === 'dark'
-                          ? 'bg-gradient-to-br from-[#C8FF5C]/15 to-[#C8FF5C]/5'
-                          : 'bg-gradient-to-br from-[#C8FF5C]/30 to-[#C8FF5C]/10'
-                      }`}>
-                        {cert.icon.startsWith('/') ? (
-                          <img 
-                            src={cert.icon} 
-                            alt={cert.title}
-                            className="w-6 h-6 md:w-10 md:h-10 object-contain"
-                          />
-                        ) : (
-                          <span className="text-2xl md:text-4xl">{cert.icon}</span>
-                        )}
+                    {/* Top edge glowing gradient light leak */}
+                    <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:from-transparent ${
+                      theme === 'dark'
+                        ? 'group-hover:via-[#C8FF5C]/30'
+                        : 'group-hover:via-[#8ec438]/30'
+                    } group-hover:to-transparent transition-all duration-700`} />
+
+                    <div>
+                      {/* Top Row: Icon and Date */}
+                      <div className="flex items-center justify-between mb-1.5">
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center group-hover:scale-105 group-hover:rotate-2 transition-transform duration-500 shadow-sm overflow-hidden p-1.5 ${
+                          theme === 'dark'
+                            ? 'bg-white/5 border border-white/10 shadow-black/25'
+                            : 'bg-gray-50 border border-gray-150 shadow-gray-100/50'
+                        }`}>
+                          {cert.icon.startsWith('/') ? (
+                            <img 
+                              src={cert.icon} 
+                              alt={cert.title}
+                              className="w-full h-full object-contain"
+                            />
+                          ) : (
+                            <span className="text-base">{cert.icon}</span>
+                          )}
+                        </div>
+
+                        {/* Verification Date Badge */}
+                        <div className={`px-2 py-0.5 text-[10.5px] font-black rounded-full uppercase tracking-wider transition-all duration-300 ${
+                          theme === 'dark'
+                            ? 'bg-[#C8FF5C]/10 border border-[#C8FF5C]/20 text-[#C8FF5C]'
+                            : 'bg-[#8ec438]/10 border border-[#8ec438]/20 text-[#6f9828]'
+                        }`}>
+                          {cert.date}
+                        </div>
                       </div>
-                      
-                      <h3 className={`text-xs md:text-xl font-bold mb-1 md:mb-2 tracking-tight group-hover:text-[#C8FF5C] transition-colors duration-300 line-clamp-2 ${
-                        theme === 'dark' ? 'text-white' : 'text-gray-900'
+
+                      {/* Middle Row: Title */}
+                      <h3 className={`text-[14px] sm:text-[15px] md:text-[16px] font-black mb-1.5 tracking-tight leading-snug transition-colors duration-300 line-clamp-2 ${
+                        theme === 'dark' 
+                          ? 'text-white group-hover:text-[#C8FF5C]' 
+                          : 'text-gray-900 group-hover:text-[#8ec438]'
                       }`}>
                         {cert.title}
                       </h3>
-                      
-                      <p className={`text-[10px] md:text-sm font-medium mb-1 md:mb-2 transition-colors duration-300 ${
+
+                      {/* Issuer Badge */}
+                      <span className={`text-[10.5px] font-extrabold px-2 py-0.5 rounded border uppercase tracking-wider inline-block mb-1.5 transition-all duration-300 ${
                         theme === 'dark'
-                          ? 'text-white/60 group-hover:text-white/80'
-                          : 'text-gray-600 group-hover:text-gray-800'
+                          ? 'bg-white/5 border-white/10 text-white/50 group-hover:border-white/15'
+                          : 'bg-gray-100 border-gray-200 text-gray-550 group-hover:border-gray-250'
                       }`}>
                         {cert.issuer}
-                      </p>
-                      
+                      </span>
+
+                      {/* Description (if exists) */}
                       {cert.description && (
-                        <p className={`text-[8px] md:text-xs mb-2 md:mb-3 transition-colors duration-300 hidden md:block ${
-                          theme === 'dark'
-                            ? 'text-white/50 group-hover:text-white/70'
-                            : 'text-gray-500 group-hover:text-gray-700'
-                        }`}>
+                        <p className={`text-[11.5px] leading-relaxed line-clamp-2 font-medium ${
+                          theme === 'dark' ? 'text-white/40 group-hover:text-white/50' : 'text-gray-550 group-hover:text-gray-650'
+                        } transition-colors duration-300`}>
                           {cert.description}
                         </p>
                       )}
-                      
-                      <div className="flex items-center justify-between mt-2 md:mt-4 gap-1 md:gap-2">
-                        <div className="inline-block px-2 py-0.5 md:px-3 md:py-1 bg-[#C8FF5C]/10 border border-[#C8FF5C]/30 rounded-full text-[8px] md:text-xs text-[#C8FF5C] font-medium">
-                          {cert.date}
-                        </div>
-                        
-                        <a
-                          href={cert.certificateUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/btn inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 bg-[#C8FF5C]/20 hover:bg-[#C8FF5C]/30 border border-[#C8FF5C]/40 hover:border-[#C8FF5C]/60 rounded-full text-[8px] md:text-xs text-[#C8FF5C] font-semibold transition-all duration-300 hover:scale-105"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <span>View</span>
-                          <svg 
-                            className="w-2 h-2 md:w-3 md:h-3 group-hover/btn:translate-x-0.5 transition-transform duration-300" 
-                            fill="none" 
-                            viewBox="0 0 24 24" 
-                            stroke="currentColor"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </a>
-                      </div>
                     </div>
 
-                    <div className="absolute top-0 right-0 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-bl from-[#C8FF5C]/10 to-transparent rounded-2xl md:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  </div>
+                    {/* Bottom Row: View Button */}
+                    <div className="mt-2 pt-2 border-t border-gray-150/10 dark:border-white/5 flex items-center justify-end">
+                      <a
+                        href={cert.certificateUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                          className={`group/btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-[10.5px] font-black transition-all duration-300 hover:scale-[1.02] ${
+                          theme === 'dark'
+                            ? 'bg-[#C8FF5C]/10 hover:bg-[#C8FF5C] border border-[#C8FF5C]/20 hover:border-[#C8FF5C] text-[#C8FF5C] hover:text-black shadow-md shadow-black/10'
+                            : 'bg-[#8ec438]/10 hover:bg-[#8ec438] border border-[#8ec438]/20 hover:border-[#8ec438] text-[#5f8420] hover:text-white shadow-sm'
+                        }`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <span>Verify Credential</span>
+                        <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-all duration-300 ${
+                          theme === 'dark'
+                            ? 'border-white/15 group-hover/btn:border-black/20 group-hover/btn:bg-black/10 text-[#C8FF5C] group-hover/btn:text-black'
+                            : 'border-gray-255 group-hover/btn:border-white/20 group-hover/btn:bg-white/10 text-gray-500 group-hover/btn:text-white'
+                        }`}>
+                          <svg className="w-2.5 h-2.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </div>
+                      </a>
+                    </div>
+
+                    {/* Holographic Glowing Orbits / Mesh */}
+                    <div className={`absolute -right-16 -top-16 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-[0.1] transition-opacity duration-700 pointer-events-none ${
+                      theme === 'dark'
+                        ? 'bg-gradient-to-br from-[#C8FF5C] via-teal-400 to-indigo-500'
+                        : 'bg-gradient-to-br from-[#8ec438] via-amber-400 to-emerald-500'
+                    }`} />
+                  </motion.div>
                 ))}
               </div>
             </div>
 
-            {/* IBM Courses Section - Fixed */}
-            <div 
-              className="mt-24 transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 1450 ? 1 : 0,
-                transform: scrollY > 1450 ? 'translateY(0)' : 'translateY(50px)'
-              }}
+            {/* Featured IBM Course Showcase Card */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-8 relative"
             >
-              <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-[#C8FF5C]">🎯 Professional Certification</h3>
-              
-              {/* Compact Card - Collapsed State */}
               <div 
                 onClick={() => setShowCourseDetails(true)}
-                className={`group relative rounded-2xl md:rounded-3xl p-4 md:p-8 transition-all duration-500 overflow-hidden hover:shadow-2xl hover:-translate-y-2 max-w-3xl cursor-pointer ${
+                className={`group relative rounded-[24px] p-4 md:p-6 transition-all duration-500 overflow-hidden hover:shadow-xl hover:-translate-y-1 cursor-pointer ${
                   theme === 'dark'
-                    ? 'bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] backdrop-blur-2xl border border-blue-500/30 hover:border-[#C8FF5C]/60 hover:shadow-[#C8FF5C]/10'
-                    : 'bg-white border border-gray-200 hover:border-[#C8FF5C]/60 hover:shadow-[#C8FF5C]/20'
+                    ? 'bg-gradient-to-br from-[#121212] via-[#0d0d0d] to-black border border-blue-500/25 hover:border-[#C8FF5C]/45 hover:shadow-[#C8FF5C]/5'
+                    : 'bg-white border border-gray-250 hover:border-[#8ec438]/45 hover:shadow-lg shadow-sm'
                 }`}
               >
-                <div className={`absolute inset-0 rounded-2xl md:rounded-3xl transition-opacity duration-500 ${
+                {/* sweeping neon/blue light leak border */}
+                <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:from-transparent ${
                   theme === 'dark'
-                    ? 'bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100'
-                    : 'bg-gradient-to-br from-[#C8FF5C]/5 to-transparent opacity-100'
+                    ? 'group-hover:via-[#C8FF5C]/40'
+                    : 'group-hover:via-[#8ec438]/40'
+                } group-hover:to-transparent transition-all duration-1000`} />
+
+                {/* Glow Overlay */}
+                <div className={`absolute inset-0 rounded-[24px] transition-opacity duration-700 pointer-events-none ${
+                  theme === 'dark'
+                    ? 'bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100'
+                    : 'bg-gradient-to-br from-[#C8FF5C]/5 via-[#8ec438]/5 to-transparent opacity-0 group-hover:opacity-100'
                 }`} />
                 
-                <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-                  {/* Logo + Content Row */}
-                  <div className="flex items-start gap-3 md:gap-6 flex-1">
-                    {/* Logo */}
-                    <div className={`w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-500 p-1.5 md:p-2 ${
-                      theme === 'dark'
-                        ? 'bg-gradient-to-br from-blue-500/20 to-blue-600/10'
-                        : 'bg-gradient-to-br from-[#C8FF5C]/30 to-[#8ec438]/20'
-                    }`}>
-                      <img 
-                        src="/ibm/ibm.png" 
-                        alt="IBM Logo"
-                        className="w-full h-full object-contain"
-                      />
+                <div className="relative z-10 flex flex-col gap-5">
+                  {/* Info Block */}
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    {/* Left Branding */}
+                    <div className="flex items-start gap-3 sm:gap-4 flex-1">
+                      {/* Logo container with custom neon frame */}
+                      <div className={`w-11 h-11 sm:w-13 sm:h-13 rounded-xl flex items-center justify-center flex-shrink-0 p-1.5 sm:p-2 shadow-md transition-all duration-500 group-hover:rotate-1 ${
+                        theme === 'dark'
+                          ? 'bg-white/5 border border-white/10 ring-1 ring-white/10'
+                          : 'bg-gradient-to-br from-[#C8FF5C]/25 to-[#8ec438]/10 border border-[#8ec438]/15'
+                      }`}>
+                        <img 
+                          src="/ibm/ibm.png" 
+                          alt="IBM Logo"
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+
+                      {/* Meta details */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
+                          <span className={`text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] ${
+                            theme === 'dark' ? 'text-white/40' : 'text-gray-500'
+                          }`}>
+                            Featured Specialization
+                          </span>
+                          <div className={`px-2 py-0.5 rounded-full border text-[9px] font-black ${
+                            theme === 'dark' 
+                              ? 'bg-[#C8FF5C]/10 border-[#C8FF5C]/25 text-[#C8FF5C]' 
+                              : 'bg-[#8ec438]/10 border-[#8ec438]/25 text-[#5f8420]'
+                          }`}>
+                            16 Course Series Completed
+                          </div>
+                        </div>
+                        
+                        <h4 className={`text-lg sm:text-xl font-black mb-1 tracking-tight transition-colors duration-500 leading-snug ${
+                          theme === 'dark' ? 'text-white group-hover:text-[#C8FF5C]' : 'text-gray-900 group-hover:text-[#8ec438]'
+                        }`}>
+                          IBM Generative AI Engineering Professional Certificate
+                        </h4>
+                        
+                        <div className="flex items-center gap-1.5 text-yellow-400 text-[11px]">
+                          <span>★★★★★</span>
+                          <span className={`text-[11px] ml-1 font-semibold ${theme === 'dark' ? 'text-white/40' : 'text-gray-500'}`}>
+                            Authorized by IBM Certification Board
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <h4 className={`text-sm md:text-2xl font-black mb-1 md:mb-2 tracking-tight group-hover:text-[#C8FF5C] transition-colors duration-500 leading-tight ${
-                        theme === 'dark' ? 'text-white' : 'text-gray-900'
-                      }`}>
-                        IBM Generative AI Engineering Professional Certificate
-                      </h4>
-                      <div className="flex items-center gap-2 md:gap-3 flex-wrap">
-                        <div className="px-2 md:px-3 py-0.5 md:py-1 bg-gradient-to-r from-[#C8FF5C]/15 to-[#C8FF5C]/5 border border-[#C8FF5C]/20 rounded-full">
-                          <span className="text-[10px] md:text-xs text-[#C8FF5C] font-bold">16 courses</span>
-                        </div>
-                        <span className="text-yellow-400 text-xs md:text-sm">★</span>
-                        <span className={`text-[10px] md:text-xs hidden sm:inline ${theme === 'dark' ? 'text-white/50' : 'text-gray-500'}`}>Click to see details →</span>
-                      </div>
+                    {/* Right Action buttons */}
+                    <div className="flex flex-col sm:flex-row items-center gap-2.5 flex-shrink-0 w-full lg:w-auto">
+                      <button
+                        onClick={() => setShowCourseDetails(true)}
+                          className={`inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-black tracking-wide w-full sm:w-auto transition-all duration-300 hover:scale-[1.02] border ${
+                          theme === 'dark'
+                            ? 'bg-white/5 hover:bg-white/10 border-white/10 text-white'
+                            : 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-900'
+                        }`}
+                      >
+                        <span>Explore Syllabus</span>
+                        <svg className="w-3 h-3 group-hover:translate-y-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      
+                      <a
+                        href="/ibm/main cert.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                          className={`inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-black tracking-wide w-full sm:w-auto transition-all duration-300 hover:scale-[1.02] shadow-lg ${
+                          theme === 'dark'
+                            ? 'bg-[#C8FF5C] hover:bg-[#b8ef4c] text-black shadow-[#C8FF5C]/10'
+                            : 'bg-[#8ec438] hover:bg-[#7ab32e] text-white shadow-[#8ec438]/10'
+                        }`}
+                      >
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z" />
+                        </svg>
+                        <span>View Credential</span>
+                      </a>
                     </div>
                   </div>
 
-                  {/* Main Certificate Button */}
-                  <a
-                    href="/ibm/main cert.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className={`flex-shrink-0 inline-flex items-center justify-center gap-2 px-3 md:px-4 py-2 rounded-full text-[11px] md:text-xs font-bold transition-all duration-300 hover:scale-105 w-full md:w-auto ${
-                      theme === 'dark'
-                        ? 'bg-[#C8FF5C] hover:bg-[#b8ef4c] text-black'
-                        : 'bg-[#8ec438] hover:bg-[#7ab32e] text-white'
-                    }`}
-                  >
-                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                    </svg>
-                    <span>View Certificate</span>
-                  </a>
+                  {/* Interactive Visual Timeline / Milestones */}
+                  <div className="pt-4 border-t border-gray-150/10 dark:border-white/5 hidden md:block">
+                    <div className="flex items-center justify-between max-w-2xl mx-auto">
+                      {[
+                        { step: "01", name: "AI Foundations" },
+                        { step: "02", name: "Python & ML" },
+                        { step: "03", name: "Deep Learning" },
+                        { step: "04", name: "AI Agents" }
+                      ].map((t, i) => (
+                        <div key={t.name} className="flex items-center gap-2 group/step">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center font-black text-[9px] border transition-all duration-500 ${
+                            theme === 'dark'
+                              ? 'bg-white/5 border-white/10 text-white/50 group-hover/step:border-[#C8FF5C] group-hover/step:text-[#C8FF5C] group-hover/step:bg-[#C8FF5C]/10'
+                              : 'bg-gray-50 border-gray-200 text-gray-400 group-hover/step:border-[#8ec438] group-hover/step:text-[#8ec438] group-hover/step:bg-[#8ec438]/10'
+                          }`}>
+                            {t.step}
+                          </div>
+                          <div className="text-left">
+                            <p className={`text-[8px] uppercase font-black tracking-widest leading-none mb-0.5 ${theme === 'dark' ? 'text-white/30 group-hover/step:text-[#C8FF5C]' : 'text-gray-400 group-hover/step:text-[#8ec438]'}`}>Phase {t.step}</p>
+                            <p className={`text-[11px] font-black leading-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white/60 group-hover/step:text-white' : 'text-gray-700 group-hover/step:text-gray-900'}`}>{t.name}</p>
+                          </div>
+                          {i < 3 && (
+                            <div className={`w-6 lg:w-10 h-px ml-2.5 ${theme === 'dark' ? 'bg-white/10' : 'bg-gray-250'}`} />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                <div className={`absolute -top-10 -right-10 w-24 h-24 md:w-32 md:h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
-                  theme === 'dark'
-                    ? 'bg-gradient-to-br from-blue-500/20 to-transparent'
-                    : 'bg-gradient-to-br from-[#C8FF5C]/20 to-transparent'
+                {/* Ambient Soft Glow Behind card */}
+                <div className={`absolute -bottom-16 -right-16 w-36 h-36 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none ${
+                  theme === 'dark' ? 'bg-blue-500/10' : 'bg-[#C8FF5C]/15'
                 }`} />
               </div>
-            </div>
+            </motion.div>
+
+                
 
             {/* Internship Experience Section */}
             <div 
@@ -1277,7 +1041,7 @@ const ibmCourses = [
               <h3 className={`text-5xl md:text-6xl font-black mb-4 tracking-tight ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>Work Experience</h3>
-              <p className={`text-base mb-16 max-w-3xl leading-relaxed ${
+              <p className={`text-lg mb-16 max-w-3xl leading-relaxed ${
                 theme === 'dark' ? 'text-white/50' : 'text-gray-600'
               }`}>
                 Gained hands-on experience delivering ML models, analytics dashboards, and full-stack web applications during industry internships
@@ -1329,7 +1093,7 @@ const ibmCourses = [
                           {internship.achievements.map((achievement, idx) => (
                             <p 
                               key={idx} 
-                              className={`text-sm md:text-base leading-relaxed transition-colors duration-500 ${
+                            className={`text-base md:text-lg leading-relaxed transition-colors duration-500 ${
                                 theme === 'dark'
                                   ? 'text-white/40 group-hover:text-white/60'
                                   : 'text-gray-600 group-hover:text-gray-800'
@@ -1369,86 +1133,7 @@ const ibmCourses = [
         </div>
       </div>
 
-      {/* Projects Section */}
-      <div id="projects" className={`relative overflow-hidden scroll-mt-20 transition-colors duration-700 ${
-        theme === 'dark'
-          ? 'bg-gradient-to-b from-[#1a1a1a] via-[#0f0f0f] to-black text-white'
-          : 'bg-gradient-to-b from-white via-gray-50 to-gray-100 text-gray-900'
-      }`}>
-        <div className="container mx-auto px-6 pt-1 md:pt-2 pb-20 md:pb-32">
-          <div className="max-w-7xl mx-auto">
-            {/* Projects Header */}
-            <div 
-              className="mb-16 transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 1850 ? 1 : 0,
-                transform: scrollY > 1850 ? 'translateY(0)' : 'translateY(50px)'
-              }}
-            >
-              <h2 className={`text-5xl md:text-7xl font-black mb-6 leading-[1.1] pb-2 ${
-                theme === 'dark'
-                  ? 'bg-gradient-to-r from-[#C8FF5C] to-white bg-clip-text text-transparent'
-                  : 'bg-gradient-to-r from-[#8ec438] to-gray-900 bg-clip-text text-transparent'
-              }`}>
-                Featured Projects
-              </h2>
-              <div className="w-20 h-1 bg-[#C8FF5C] rounded-full"></div>
-              <p className={`text-lg mt-6 max-w-2xl ${
-                theme === 'dark' ? 'text-white/60' : 'text-gray-600'
-              }`}>
-                Explore my portfolio of data science, machine learning, and full-stack development projects. 
-                Hover to preview, click to view details.
-              </p>
-            </div>
-
-            {/* Filter Bar */}
-            <div 
-              className="mb-12 transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 1850 ? 1 : 0,
-                transform: scrollY > 1850 ? 'translateY(0)' : 'translateY(30px)'
-              }}
-            >
-              <div className="flex flex-wrap gap-3 items-center">
-                <span className={`text-sm font-semibold mr-2 ${
-                  theme === 'dark' ? 'text-white/50' : 'text-gray-500'
-                }`}>Filter by:</span>
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setProjectFilter(category)}
-                    className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                      projectFilter === category
-                        ? 'bg-[#C8FF5C] text-black shadow-lg shadow-[#C8FF5C]/20 scale-105'
-                        : theme === 'dark'
-                        ? 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10 hover:border-[#C8FF5C]/30'
-                        : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-[#C8FF5C]/50 shadow-sm'
-                    }`}
-                  >
-                    {category}
-                    {category !== 'All' && (
-                      <span className="ml-2 text-xs opacity-60">
-                        ({projects.filter(p => p.category === category).length})
-                      </span>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Expandable Project Gallery */}
-            <div 
-              className="transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 1900 ? 1 : 0,
-                transform: scrollY > 1900 ? 'translateY(0)' : 'translateY(50px)'
-              }}
-            >
-              <ExpandableProjectGallery projects={filteredProjects} theme={theme} className="max-w-7xl mx-auto" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProjectsSection theme={theme} />
 
       {/* Contact Section - Add before closing fragment */}
       <div id="contact" className={`relative overflow-hidden transition-colors duration-700 ${
@@ -1723,8 +1408,7 @@ const ibmCourses = [
         </footer>
       </div>
 
-
-      {/* Course Details Modal - Fixed */}
+      {/* Course Details Modal - Redesigned split-column progress tracker */}
       {showCourseDetails && (
         <div 
           className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
@@ -1735,10 +1419,10 @@ const ibmCourses = [
           
           {/* Modal Content */}
           <div 
-            className={`relative rounded-[32px] p-8 md:p-12 max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl animate-slideInUp ${
+            className={`relative rounded-[32px] p-6 md:p-10 max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl animate-slideInUp ${
               theme === 'dark'
-                ? 'bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-blue-500/30'
-                : 'bg-white border border-gray-200'
+                ? 'bg-gradient-to-br from-[#121212] via-[#0d0d0d] to-black border border-blue-500/25'
+                : 'bg-white border border-gray-205 shadow-2xl shadow-gray-300'
             }`}
             onClick={(e) => e.stopPropagation()}
           >
@@ -1760,10 +1444,10 @@ const ibmCourses = [
             <div className={`flex flex-col md:flex-row items-start gap-6 mb-8 pb-6 border-b ${
               theme === 'dark' ? 'border-white/10' : 'border-gray-200'
             }`}>
-              <div className={`w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0 p-3 ${
+              <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center flex-shrink-0 p-3.5 shadow-md ${
                 theme === 'dark'
-                  ? 'bg-gradient-to-br from-blue-500/20 to-blue-600/10'
-                  : 'bg-gradient-to-br from-[#C8FF5C]/30 to-[#8ec438]/20'
+                  ? 'bg-white/5 border border-white/10'
+                  : 'bg-gradient-to-br from-[#C8FF5C]/30 to-[#8ec438]/15 border border-[#8ec438]/20'
               }`}>
                 <img 
                   src="/ibm/ibm.png" 
@@ -1772,76 +1456,157 @@ const ibmCourses = [
                 />
               </div>
               <div className="flex-1">
+                <div className="flex items-center gap-2.5 mb-1.5 flex-wrap">
+                  <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${theme === 'dark' ? 'text-white/40' : 'text-gray-500'}`}>
+                    Professional Specialization
+                  </span>
+                  <div className={`px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase ${
+                    theme === 'dark' ? 'bg-[#C8FF5C]/10 border border-[#C8FF5C]/25 text-[#C8FF5C]' : 'bg-[#8ec438]/10 border border-[#8ec438]/25 text-[#6f9828]'
+                  }`}>
+                    Authorized by IBM
+                  </div>
+                </div>
                 <h4 className={`text-2xl md:text-3xl font-black mb-3 tracking-tight leading-tight ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
                   IBM Generative AI Engineering Professional Certificate
                 </h4>
-                <div className="flex flex-wrap items-center gap-4 text-sm">
+                <div className="flex flex-wrap items-center gap-4 text-xs font-semibold">
                   <div className="flex items-center gap-2">
-                    <span className="text-[#C8FF5C] font-bold">16 courses</span>
+                    <span className={theme === 'dark' ? 'text-white/60' : 'text-gray-700'}>Curriculum Length: <span className={theme === 'dark' ? 'text-[#C8FF5C]' : 'text-[#6f9828]'} >16 Courses</span></span>
                   </div>
-                  <span className="text-yellow-400 text-sm">★</span>
-                  <span className={`text-xs ${theme === 'dark' ? 'text-white/50' : 'text-gray-500'}`}>Click to see details →</span>
+                  <span className="opacity-20">•</span>
+                  <span className={theme === 'dark' ? 'text-white/40' : 'text-gray-500'}>180+ Study Hours</span>
+                  <span className="opacity-20">•</span>
+                  <span className={theme === 'dark' ? 'text-white/40' : 'text-gray-500'}>Status: <span className={theme === 'dark' ? 'text-white/60' : 'text-gray-700'}>Completed</span></span>
                 </div>
               </div>
             </div>
 
-            {/* Courses List */}
-            <div className="mb-8">
-              <h5 className={`text-xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Course Series (16 Courses)</h5>
-              <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#C8FF5C]/30 scrollbar-track-white/5 hover:scrollbar-thumb-[#C8FF5C]/50">
-                {ibmCourses.map((course) => (
-                  <div 
-                    key={course.id}
-                    className={`group rounded-xl p-4 border transition-all duration-300 ${
-                      theme === 'dark'
-                        ? 'bg-white/5 hover:bg-white/10 border-white/10 hover:border-[#C8FF5C]/30'
-                        : 'bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-[#C8FF5C]/50'
-                    }`}
-                  >
-                    <div className="flex items-start gap-4">
-                      {/* Course Number */}
-                      <div className="w-10 h-10 bg-gradient-to-br from-[#C8FF5C]/20 to-[#C8FF5C]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span className="text-[#C8FF5C] font-bold text-sm">{course.id}</span>
-                      </div>
+            {/* Split dashboard Columns */}
+            <div className="flex flex-col lg:flex-row gap-8 overflow-hidden h-[calc(90vh-220px)]">
+              {/* Left Selector Sidebar */}
+              <div className="w-full lg:w-[320px] flex flex-col gap-3 overflow-y-auto pr-1 pb-4 flex-shrink-0">
+                <p className={`text-[10px] font-black uppercase tracking-[0.2em] mb-1 ${theme === 'dark' ? 'text-white/40' : 'text-gray-500'}`}>
+                  Specialization Milestones
+                </p>
+                {ibmPhases.map((phase) => {
+                  const isActive = activeIbmPhase === phase.id;
+                  return (
+                    <button
+                      key={phase.id}
+                      onClick={() => setActiveIbmPhase(phase.id)}
+                      className={`text-left p-4 rounded-2xl border transition-all duration-300 relative group/btn ${
+                        isActive
+                          ? theme === 'dark'
+                            ? 'bg-[#C8FF5C]/10 border-[#C8FF5C]/40 text-[#C8FF5C] shadow-lg shadow-[#C8FF5C]/5'
+                            : 'bg-[#8ec438]/10 border-[#8ec438]/40 text-[#5f8420]'
+                          : theme === 'dark'
+                            ? 'bg-white/5 border-white/10 hover:border-white/20 text-white/70 hover:text-white'
+                            : 'bg-gray-50 border-gray-200 hover:border-gray-300 text-gray-700 hover:text-gray-900'
+                      }`}
+                      style={{ outline: 'none' }}
+                    >
+                      {/* Left glowing marker indicator */}
+                      <div className={`absolute left-0 top-1/4 bottom-1/4 w-[3px] rounded-r-full transition-all duration-300 ${
+                        isActive
+                          ? theme === 'dark' ? 'bg-[#C8FF5C]' : 'bg-[#8ec438]'
+                          : 'bg-transparent'
+                      }`} />
 
-                      {/* Course Details */}
-                      <div className="flex-1 min-w-0">
-                        <h6 className={`font-semibold text-sm mb-1 group-hover:text-[#C8FF5C] transition-colors duration-300 ${
-                          theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      <div className="flex justify-between items-center mb-1">
+                        <span className={`text-[9px] font-black uppercase tracking-widest ${isActive ? '' : 'opacity-70'}`}>
+                          {phase.title}
+                        </span>
+                        <span className={`text-[9px] font-black px-2 py-0.5 rounded-full ${
+                          theme === 'dark'
+                            ? 'bg-[#C8FF5C]/15 text-[#C8FF5C]'
+                            : 'bg-[#8ec438]/15 text-[#6f9828]'
                         }`}>
-                          {course.name}
-                        </h6>
-                        <div className="flex items-center gap-4 text-xs">
-                          <span className={theme === 'dark' ? 'text-white/50' : 'text-gray-600'}>{course.duration}</span>
-                          <span className={theme === 'dark' ? 'text-white/40' : 'text-gray-400'}>•</span>
-                          <span className={theme === 'dark' ? 'text-white/60' : 'text-gray-700'}>Grade: <span className={theme === 'dark' ? 'text-white/40' : 'text-gray-500'}>{course.grade}</span></span>
-                        </div>
+                          ✓ Done
+                        </span>
                       </div>
+                      <p className={`text-sm font-black mb-1 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-gray-900'} ${isActive ? (theme === 'dark' ? 'text-[#C8FF5C]' : 'text-[#8ec438]') : ''}`}>{phase.subtitle}</p>
+                      <p className={`text-[11px] leading-normal line-clamp-2 ${theme === 'dark' ? 'text-white/40 group-hover/btn:text-white/60' : 'text-gray-500'}`}>{phase.description}</p>
+                    </button>
+                  );
+                })}
+              </div>
 
-                      {/* View Certificate Button */}
-                      <a
-                        href={course.certificateUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#C8FF5C]/10 hover:bg-[#C8FF5C]/20 border border-[#C8FF5C]/30 hover:border-[#C8FF5C]/50 rounded-lg text-xs text-[#C8FF5C] font-semibold transition-all duration-300 hover:scale-105"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                        <span>View</span>
-                      </a>
-                    </div>
-                  </div>
-                ))}
+              {/* Right Course cards Panel */}
+              <div className="flex-1 overflow-y-auto pr-2 space-y-3 pb-8 h-full">
+                <p className={`text-[10px] font-black uppercase tracking-[0.2em] mb-1 ${theme === 'dark' ? 'text-white/40' : 'text-gray-500'}`}>
+                  Milestone Curriculum ({ibmPhases.find(p => p.id === activeIbmPhase)?.courses.length} courses)
+                </p>
+                {ibmCourses
+                  .filter(c => ibmPhases.find(p => p.id === activeIbmPhase)?.courses.includes(c.id))
+                  .map((course, idx) => (
+                    <motion.div
+                      key={course.id}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: idx * 0.05 }}
+                      className={`group rounded-2xl p-4 border transition-all duration-300 ${
+                        theme === 'dark'
+                          ? 'bg-white/5 hover:bg-white/10 border-white/10 hover:border-[#C8FF5C]/35'
+                          : 'bg-gray-50 hover:bg-gray-100 border-gray-205 hover:border-[#8ec438]/45 shadow-sm'
+                      }`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="flex items-start sm:items-center gap-4 flex-1 min-w-0">
+                          {/* Course Number Badge */}
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-black text-sm transition-all duration-300 ${
+                            theme === 'dark'
+                              ? 'bg-[#C8FF5C]/10 border border-[#C8FF5C]/25 text-[#C8FF5C] group-hover:bg-[#C8FF5C] group-hover:text-black'
+                              : 'bg-[#8ec438]/10 border border-[#8ec438]/25 text-[#6f9828] group-hover:bg-[#8ec438] group-hover:text-white'
+                          }`}>
+                            {course.id < 10 ? `0${course.id}` : course.id}
+                          </div>
+
+                          {/* Course metadata */}
+                          <div className="flex-1 min-w-0">
+                            <h6 className={`font-black text-sm sm:text-base mb-1 tracking-tight transition-colors duration-300 ${
+                              theme === 'dark' 
+                                ? 'text-white group-hover:text-[#C8FF5C]' 
+                                : 'text-gray-900 group-hover:text-[#8ec438]'
+                            }`}>
+                              {course.name}
+                            </h6>
+                            <div className="flex items-center gap-3 text-[11px] font-bold">
+                              <span className={theme === 'dark' ? 'text-white/45' : 'text-gray-500'}>{course.duration}</span>
+                              <span className="opacity-30">•</span>
+                              <span className={`px-2 py-0.5 rounded-md text-[9px] font-black uppercase ${
+                                theme === 'dark' ? 'bg-white/5 text-white/65 border border-white/10' : 'bg-gray-100 text-gray-550 border border-gray-200'
+                              }`}>Completed</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* View Course Certificate */}
+                        <a
+                          href={course.certificateUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`flex-shrink-0 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black transition-all duration-300 hover:scale-[1.03] shadow-md ${
+                            theme === 'dark'
+                              ? 'bg-[#C8FF5C]/10 hover:bg-[#C8FF5C] border border-[#C8FF5C]/25 text-[#C8FF5C] hover:text-black shadow-black/10'
+                              : 'bg-[#8ec438]/10 hover:bg-[#8ec438] border border-[#8ec438]/25 text-[#5f8420] hover:text-white shadow-gray-150'
+                          }`}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                          <span>View Certificate</span>
+                        </a>
+                      </div>
+                    </motion.div>
+                  ))}
               </div>
             </div>
           </div>
         </div>
-    
       )}
     </>
   )
