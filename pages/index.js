@@ -11,7 +11,6 @@ import { HeroHighlight, Highlight } from '../components/ui/hero-highlight'
 import ProjectsSection from '../components/ProjectsSection'
 
 export default function Home() {
-  const [scrollY, setScrollY] = useState(0)
   const [expandedService, setExpandedService] = useState(null)
   const [showCourseDetails, setShowCourseDetails] = useState(false)
   const [activeIbmPhase, setActiveIbmPhase] = useState(1)
@@ -62,11 +61,7 @@ export default function Home() {
     'I build production web applications.'
   ]
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -420,7 +415,7 @@ const ibmCourses = [
       {/* ─── STICKY HERO FOR CURTAIN REVEAL ─── */}
       <div className="relative w-full z-10" style={{ height: '100vh' }}>
         <div className="sticky top-0 left-0 w-full h-full overflow-hidden">
-          <HeroSection theme={theme} onThemeChange={setTheme} scrollY={scrollY} />
+          <HeroSection theme={theme} onThemeChange={setTheme} />
         </div>
       </div>
 
@@ -435,10 +430,9 @@ const ibmCourses = [
       >
         <div className="container mx-auto px-6 py-20 md:py-32 relative z-10">
           <div className="max-w-6xl mx-auto">
-            {/* About Header */}
             <motion.div 
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="mb-16"
@@ -457,8 +451,8 @@ const ibmCourses = [
             <div className="mb-20 overflow-visible">
               <HeroHighlight containerClassName="bg-transparent dark:bg-transparent min-h-0 h-auto py-4 md:py-8">
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                   className="w-full flex justify-center text-center px-4 md:px-8"
@@ -490,8 +484,8 @@ const ibmCourses = [
 
             {/* Skills Section */}
             <motion.div 
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
@@ -551,7 +545,7 @@ const ibmCourses = [
                   />
                 </div>
                 <div className="flex-1 pt-0.5">
-                  <h4 className={`text-[26px] md:text-2xl font-black mb-1 tracking-tight transition-colors duration-300 leading-tight ${
+                  <h4 className={`text-lg sm:text-xl md:text-2xl font-black mb-1 tracking-tight transition-colors duration-300 leading-tight ${
                     theme === 'dark'
                       ? 'text-white group-hover:text-[#C8FF5C]'
                       : 'text-gray-900 group-hover:text-[#8ec438]'
@@ -588,8 +582,8 @@ const ibmCourses = [
             {/* Services (Redesigned Offerings) */}
             <motion.div 
               id="expertise"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="mt-32 relative overflow-visible"
@@ -597,8 +591,8 @@ const ibmCourses = [
               <div className="max-w-4xl mx-auto relative z-10">
                 {/* Header styled exactly like screenshot */}
                 <motion.div 
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                   className="mb-14 text-left"
@@ -618,8 +612,8 @@ const ibmCourses = [
                     return (
                       <motion.div
                         key={service.id}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: index * 0.08 }}
                         className={`border-b transition-all duration-500 overflow-hidden ${
@@ -731,8 +725,8 @@ const ibmCourses = [
           <div className="max-w-6xl mx-auto">
             {/* Achievements Header */}
             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="mb-10 text-left"
@@ -760,8 +754,8 @@ const ibmCourses = [
                 {certifications.map((cert, index) => (
                   <motion.div
                     key={cert.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ type: "spring", stiffness: 85, damping: 18, delay: index * 0.05 }}
                     whileHover={{ 
@@ -769,7 +763,7 @@ const ibmCourses = [
                       scale: 1.012,
                       transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
                     }}
-                    className={`group relative backdrop-blur-3xl border rounded-2xl p-4 flex flex-col justify-between min-h-[238px] transition-all duration-500 overflow-hidden hover:shadow-md ${
+                    className={`group relative backdrop-blur-3xl border rounded-2xl p-4 flex flex-col justify-between min-h-[170px] sm:min-h-[190px] md:min-h-[238px] transition-all duration-500 overflow-hidden hover:shadow-md ${
                       theme === 'dark'
                         ? `bg-gradient-to-br from-[#121212]/95 via-[#0a0a0a]/98 to-black/95 ${cert.borderColor} hover:border-[#C8FF5C]/35 hover:shadow-[#C8FF5C]/5`
                         : `bg-white/95 border-gray-200/70 hover:border-[#8ec438]/45 hover:shadow-gray-200/30`
@@ -878,8 +872,8 @@ const ibmCourses = [
 
             {/* Featured IBM Course Showcase Card */}
             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="mt-8 relative"
@@ -1031,12 +1025,12 @@ const ibmCourses = [
                 
 
             {/* Internship Experience Section */}
-            <div 
-              className="mt-24 transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 1500 ? 1 : 0,
-                transform: scrollY > 1500 ? 'translateY(0)' : 'translateY(50px)'
-              }}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-24"
             >
               <h3 className={`text-5xl md:text-6xl font-black mb-4 tracking-tight ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
@@ -1112,22 +1106,22 @@ const ibmCourses = [
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Stats Section */}
-            <div 
-              className="mt-24 transition-all duration-1000 ease-out"
-              style={{
-                opacity: scrollY > 1700 ? 1 : 0,
-                transform: scrollY > 1700 ? 'translateY(0)' : 'translateY(50px)'
-              }}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-24"
             >
               <MorphingCardStack 
                 cards={stats}
                 theme={theme}
                 onCardClick={(card) => console.log('Card clicked:', card)}
               />
-            </div>
+            </motion.div>
 
           </div>
         </div>
@@ -1419,7 +1413,7 @@ const ibmCourses = [
           
           {/* Modal Content */}
           <div 
-            className={`relative rounded-[32px] p-6 md:p-10 max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl animate-slideInUp ${
+            className={`relative rounded-[32px] p-5 sm:p-6 md:p-10 max-w-5xl w-full max-h-[90vh] overflow-y-auto lg:overflow-hidden shadow-2xl animate-slideInUp ${
               theme === 'dark'
                 ? 'bg-gradient-to-br from-[#121212] via-[#0d0d0d] to-black border border-blue-500/25'
                 : 'bg-white border border-gray-205 shadow-2xl shadow-gray-300'
@@ -1455,7 +1449,7 @@ const ibmCourses = [
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 pr-8 md:pr-0">
                 <div className="flex items-center gap-2.5 mb-1.5 flex-wrap">
                   <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${theme === 'dark' ? 'text-white/40' : 'text-gray-500'}`}>
                     Professional Specialization
@@ -1484,9 +1478,34 @@ const ibmCourses = [
             </div>
 
             {/* Split dashboard Columns */}
-            <div className="flex flex-col lg:flex-row gap-8 overflow-hidden h-[calc(90vh-220px)]">
-              {/* Left Selector Sidebar */}
-              <div className="w-full lg:w-[320px] flex flex-col gap-3 overflow-y-auto pr-1 pb-4 flex-shrink-0">
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 overflow-y-visible lg:overflow-hidden h-auto lg:h-[calc(90vh-220px)]">
+              {/* Mobile Tab Selector */}
+              <div className="flex lg:hidden overflow-x-auto gap-2 pb-3 mb-2 scrollbar-none flex-shrink-0">
+                {ibmPhases.map((phase) => {
+                  const isActive = activeIbmPhase === phase.id;
+                  const phaseName = phase.title.split(': ')[1] || phase.subtitle;
+                  return (
+                    <button
+                      key={phase.id}
+                      onClick={() => setActiveIbmPhase(phase.id)}
+                      className={`px-4 py-2.5 rounded-full text-xs font-black whitespace-nowrap border transition-all duration-300 ${
+                        isActive
+                          ? theme === 'dark'
+                            ? 'bg-[#C8FF5C]/15 border-[#C8FF5C] text-[#C8FF5C] shadow-md shadow-[#C8FF5C]/5'
+                            : 'bg-[#8ec438]/15 border-[#8ec438] text-[#5f8420] shadow-sm'
+                          : theme === 'dark'
+                            ? 'bg-white/5 border-white/10 text-white/70 hover:text-white'
+                            : 'bg-gray-50 border-gray-200 text-gray-700 hover:text-gray-900'
+                      }`}
+                    >
+                      Phase {phase.id}: {phaseName}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Left Selector Sidebar (Desktop only) */}
+              <div className="hidden lg:flex w-[320px] flex-col gap-3 overflow-y-auto pr-1 pb-4 flex-shrink-0">
                 <p className={`text-[10px] font-black uppercase tracking-[0.2em] mb-1 ${theme === 'dark' ? 'text-white/40' : 'text-gray-500'}`}>
                   Specialization Milestones
                 </p>
@@ -1534,7 +1553,7 @@ const ibmCourses = [
               </div>
 
               {/* Right Course cards Panel */}
-              <div className="flex-1 overflow-y-auto pr-2 space-y-3 pb-8 h-full">
+              <div className="flex-1 overflow-y-visible lg:overflow-y-auto pr-0 lg:pr-2 space-y-3 pb-8 h-auto lg:h-full">
                 <p className={`text-[10px] font-black uppercase tracking-[0.2em] mb-1 ${theme === 'dark' ? 'text-white/40' : 'text-gray-500'}`}>
                   Milestone Curriculum ({ibmPhases.find(p => p.id === activeIbmPhase)?.courses.length} courses)
                 </p>

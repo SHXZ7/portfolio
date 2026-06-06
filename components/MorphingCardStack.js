@@ -44,9 +44,9 @@ export function MorphingCardStack({ cards = [], theme = 'dark', onCardClick }) {
   const displayCards = getStackOrder()
 
   return (
-    <div className="space-y-6 w-full max-w-lg mx-auto">
+    <div className="space-y-4 sm:space-y-6 w-full max-w-lg mx-auto">
       {/* Cards Container */}
-      <div className="relative h-56 w-full">
+      <div className="relative h-44 sm:h-56 w-full">
         <AnimatePresence mode="popLayout">
           {displayCards.map((card) => {
             const styles = getLayoutStyles(card.stackPosition)
@@ -90,14 +90,14 @@ export function MorphingCardStack({ cards = [], theme = 'dark', onCardClick }) {
                 <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 
                 {/* Card Content - Theme Aware */}
-                <div className={`relative p-6 h-48 transition-colors duration-700`}>
+                <div className={`relative p-4 sm:p-6 h-36 sm:h-48 transition-colors duration-700`}>
                   <div className="flex items-center justify-between h-full">
                     {/* Left side - Icon and Label */}
                     <div className="flex flex-col justify-center flex-1">
                       {/* Icon */}
                       {card.icon && (
-                        <div className="mb-3">
-                          <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-3xl group-hover:scale-110 transition-all duration-300 ${
+                        <div className="mb-1.5 sm:mb-3">
+                          <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-xl sm:text-3xl group-hover:scale-110 transition-all duration-300 ${
                             theme === 'dark'
                               ? 'bg-gradient-to-br from-[#C8FF5C]/20 to-[#C8FF5C]/5 shadow-[#C8FF5C]/10'
                               : 'bg-gradient-to-br from-[#8ec438]/30 to-[#8ec438]/10 shadow-[#8ec438]/20'
@@ -108,7 +108,7 @@ export function MorphingCardStack({ cards = [], theme = 'dark', onCardClick }) {
                       )}
                       
                       {/* Label */}
-                      <h3 className={`text-base font-bold mb-1 transition-colors duration-300 ${
+                      <h3 className={`text-sm sm:text-base font-bold mb-0.5 sm:mb-1 transition-colors duration-300 ${
                         theme === 'dark'
                           ? 'text-white/90 group-hover:text-[#C8FF5C]'
                           : 'text-gray-900 group-hover:text-[#8ec438]'
@@ -130,7 +130,7 @@ export function MorphingCardStack({ cards = [], theme = 'dark', onCardClick }) {
                     
                     {/* Right side - Value */}
                     <div className="flex-shrink-0 text-right">
-                      <div className={`text-5xl font-black group-hover:scale-105 transition-all duration-300 ${
+                      <div className={`text-3xl sm:text-5xl font-black group-hover:scale-105 transition-all duration-300 ${
                         theme === 'dark'
                           ? 'text-[#C8FF5C]'
                           : 'text-[#8ec438]'
@@ -142,7 +142,7 @@ export function MorphingCardStack({ cards = [], theme = 'dark', onCardClick }) {
 
                   {/* Swipe hint for top card */}
                   {isTopCard && (
-                    <div className="absolute bottom-2 left-0 right-0 text-center">
+                    <div className="absolute bottom-1.5 sm:bottom-2 left-0 right-0 text-center">
                       <span className={`text-[10px] transition-colors duration-300 ${
                         theme === 'dark' ? 'text-white/30' : 'text-gray-400'
                       }`}>← Swipe →</span>

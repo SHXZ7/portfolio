@@ -216,8 +216,8 @@ export default function ProjectDetail({ project }) {
         <section className="details-container">
           {/* About Section */}
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             className="details-section"
@@ -228,8 +228,8 @@ export default function ProjectDetail({ project }) {
 
           {/* What's Included */}
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             className="details-section"
@@ -253,8 +253,8 @@ export default function ProjectDetail({ project }) {
 
           {/* Project Impact */}
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             className="details-section"
@@ -273,8 +273,8 @@ export default function ProjectDetail({ project }) {
 
         {/* Dynamic CTA Footer Section */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
           className="cta-section"
