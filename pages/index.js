@@ -4,11 +4,11 @@ import Aurora from '../components/Aurora'
 import { MorphingCardStack } from '../components/MorphingCardStack'
 import CinematicThemeSwitcher from '../components/CinematicThemeSwitcher'
 import DownloadCVButton from '../components/DownloadCVButton'
-import AnimatedContactButton from '../components/AnimatedContactButton'
 import Typewriter from '../components/Typewriter'
 import HeroSection from '../components/HeroSection'
 import { HeroHighlight, Highlight } from '../components/ui/hero-highlight'
 import ProjectsSection from '../components/ProjectsSection'
+import AIChatbot from '../components/AIChatbot'
 
 export default function Home() {
   const [expandedService, setExpandedService] = useState(null)
@@ -106,13 +106,22 @@ export default function Home() {
     if (showCourseDetails) {
       document.body.classList.add('modal-open')
       document.documentElement.classList.add('modal-open')
+      if (typeof window !== 'undefined' && window.lenis) {
+        window.lenis.stop()
+      }
     } else {
       document.body.classList.remove('modal-open')
       document.documentElement.classList.remove('modal-open')
+      if (typeof window !== 'undefined' && window.lenis) {
+        window.lenis.start()
+      }
     }
     return () => {
       document.body.classList.remove('modal-open')
       document.documentElement.classList.remove('modal-open')
+      if (typeof window !== 'undefined' && window.lenis) {
+        window.lenis.start()
+      }
     }
   }, [showCourseDetails])
 
@@ -157,60 +166,40 @@ export default function Home() {
 
 const services = [
   {
-    id: 'data-analytics',
-    title: '1. DATA ANALYST / JUNIOR DATA SCIENTIST',
-    description: `I analyze data to uncover insights and build data-driven solutions. I specialize in:
+    id: 'software-development',
+    title: '1. SOFTWARE DEVELOPMENT',
+    description: `I build production-grade full-stack web applications, REST APIs, and scalable backends. My core experience includes:
 
-• Exploratory Data Analysis (EDA) on large datasets
-• Data cleaning, preprocessing, and feature engineering
-• Creating visualizations using Matplotlib, Excel, Power BI
-• Generating reports, dashboards, and decision-support insights
-• Training and evaluating simple ML models for trend prediction
-
-My internship at Shell strengthened my real-world analytics experience.`,
-    image: '/data.jpg'
-  },
-  {
-    id: 'machine-learning',
-    title: '2. MACHINE LEARNING ENGINEER',
-    description: `I build end-to-end machine learning solutions using Python and Scikit-learn. My experience includes:
-
-• Training and evaluating models such as XGBoost, Random Forest, SVM
-• Working with Pandas, NumPy, and real-world datasets
-• Deploying ML models with FastAPI for real-time predictions
-• Using SHAP for model explainability and insights
-• Building prediction systems like health-risk models and student performance predictors
-
-This role fits how I work: data → model → API → deployment.`,
-    image: '/machine.jpg'
-  },
-  {
-    id: 'full-stack',
-    title: '3. FULL-STACK DEVELOPER',
-    description: `I develop complete, production-ready web applications from frontend to backend. My strengths include:
-
-• Building interfaces using React, Next.js, JavaScript
-• Developing backends with FastAPI, Node.js, Express
-• Implementing authentication, APIs, and cloud integration
-• Working with Firebase, GitHub, and modern tooling
-• Shipping full apps like AI Resume Builder, MedPrompt+, and AutoFlow
-
-I'm comfortable with the entire development pipeline—from UX to API deployment.`,
+• Developing responsive frontends with Next.js, React, TypeScript, and Tailwind CSS
+• Engineering REST APIs and microservices using FastAPI, Node.js, Express, and Redis
+• Managing MongoDB and PostgreSQL databases (MERN & Python backends) with Docker containerization
+• Building scalable platforms such as AutoFlow, team management portals, and IoT telemetry dashboards
+• Leveraging modern engineering tools (Cursor, Claude, Copilot) for efficient, production-ready code delivery`,
     image: '/full.jpg'
   },
   {
-    id: 'AI Engineer',
-    title: '4. AI ENGINEER / GENERATIVE AI DEVELOPER',
-    description: `I create AI-powered applications that use LLMs and automation. My experience includes:
+    id: 'ai-engineer',
+    title: '2. AI ENGINEER',
+    description: `I design and deploy AI-powered applications, RAG pipelines, and machine learning systems. My expertise includes:
 
-• Integrating GPT, Claude, Gemini into real products
-• Designing chatbots, assistants, and conversational workflows
-• Working with RAG pipelines, embeddings, and PDF/image parsing
-• Automating tasks using AI inside platforms like AutoFlow
-• Building AI-driven features such as resume scoring, health interpretation, and workflow automation
-
-This is one of my strongest areas, as I've built real AI systems used in full applications.`,
+• Building end-to-end RAG pipelines for PDF/image parsing, OCR vitals extraction, and contextual document Q&A
+• Integrating LLMs (OpenAI, Claude) for natural language prompt execution and automated workflow planning
+• Developing and training ML models (XGBoost, Random Forest, Scikit-learn) with real-time FastAPI endpoints
+• Implementing predictive maintenance classification, health risk scoring, and rule-based fallback systems
+• IBM Certified in Generative AI Engineering & 2x Hackathon Winner`,
     image: '/ai.jpg'
+  },
+  {
+    id: 'business-data-analyst',
+    title: '3. BUSINESS / DATA ANALYST',
+    description: `I engineer data pipelines, transform raw data into analytics-ready datasets, and deliver data-driven insights. Key work includes:
+
+• Building and orchestrating end-to-end ETL pipelines using Python, Apache Airflow, and PostgreSQL
+• Designing Bronze → Silver data transformation architectures (converting raw CSVs into Parquet & SQL datasets)
+• Automating data validation and schema checks across 5+ pipeline stages to guarantee data quality and reliability
+• Performing data preprocessing, feature analysis, and statistical reporting with Pandas, NumPy, and SQL
+• Converting complex system telemetry and operational metrics into actionable business dashboards`,
+    image: '/data.jpg'
   }
 ]
 
@@ -330,30 +319,30 @@ const certifications = [
 const internships = [
   {
     id: 1,
-    company: 'Vaultofcodes',
-    role: 'Full Stack Developer Intern',
-    duration: 'Jan 25 - March 2025',
-    icon: '💼',
+    company: 'MODELSUITE AI',
+    role: 'Software Engineering Intern',
+    duration: 'May 2026 - August 2026',
+    icon: '🚀',
     color: 'from-purple-500/20 to-indigo-500/20',
     borderColor: 'border-purple-500/30',
     achievements: [
-      'Developed and deployed live applications (portfolio, recipe app, weather chatbot)',
-      'Enhanced UI/UX with responsive design and GitHub version control',
-      'Built end-to-end web solutions using modern frameworks'
+      'Built a full-stack team management portal using Node.js, Express.js, and MongoDB (MERN stack), streamlining daily operations and communication tracking for remote agency teams.',
+      'Scaled a Python-based Instagram/TikTok automation platform using FastAPI, BullMQ, and MongoDB, managing 20+ real devices via ADB with automated job scheduling and execution.',
+      'Collaborated within a 10-person engineering team to ship the full automation platform in one month, leveraging AI-assisted development tools (Cursor, Claude, Copilot).'
     ]
   },
   {
     id: 2,
-    company: 'Shell',
-    role: 'Data Analytics & ML Intern',
-    duration: 'July 25 - August 2025',
-    icon: '⚡',
-    color: 'from-yellow-500/20 to-orange-500/20',
-    borderColor: 'border-yellow-500/30',
+    company: 'SPRINGER CAPITAL',
+    role: 'Data Engineering Intern',
+    duration: 'January 2026 - April 2026',
+    icon: '🛠️',
+    color: 'from-cyan-500/20 to-blue-500/20',
+    borderColor: 'border-cyan-500/30',
     achievements: [
-      'Performed full EDA on carbon emissions dataset',
-      'Trained predictive ML models and produced interactive analyses',
-      'Delivered insights using Python-based visualization dashboards'
+      'Built and orchestrated 3+ end-to-end ETL pipelines using Python, Apache Airflow, and PostgreSQL, ingesting and processing structured data from multiple sources on a daily automated schedule',
+      'Designed data transformation workflows converting raw CSV data into analytics-ready Parquet and SQL datasets (Bronze to Silver architecture)',
+      'Implemented automated data validation and schema checks across 5+ pipeline stages, ensuring data quality and reliability with zero manual intervention through Airflow-scheduled execution'
     ]
   },
   {
@@ -372,16 +361,16 @@ const internships = [
   },
   {
     id: 4,
-    company: 'SPRINGER CAPITAL',
-    role: 'Data Engineering Intern',
-    duration: 'January 2026 - April 2026',
-    icon: '🛠️',
-    color: 'from-cyan-500/20 to-blue-500/20',
-    borderColor: 'border-cyan-500/30',
+    company: 'EduNet(SHELL)',
+    role: 'Data Analytics & ML Intern',
+    duration: 'July 25 - August 2025',
+    icon: '⚡',
+    color: 'from-yellow-500/20 to-orange-500/20',
+    borderColor: 'border-yellow-500/30',
     achievements: [
-      'Built and orchestrated 3+ end-to-end ETL pipelines using Python, Apache Airflow, and PostgreSQL, ingesting and processing structured data from multiple sources on a daily automated schedule',
-      'Designed data transformation workflows converting raw CSV data into analytics-ready Parquet and SQL datasets (Bronze to Silver architecture)',
-      'Implemented automated data validation and schema checks across 5+ pipeline stages, ensuring data quality and reliability with zero manual intervention through Airflow-scheduled execution'
+      'Performed full EDA on carbon emissions dataset',
+      'Trained predictive ML models and produced interactive analyses',
+      'Delivered insights using Python-based visualization dashboards'
     ]
   }
 ]
@@ -407,10 +396,8 @@ const ibmCourses = [
 
   return (
     <>
-      {/* Contact Button - Fixed Bottom Left */}
-      <div className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50 scale-75 sm:scale-90 md:scale-100">
-        <AnimatedContactButton theme={theme} />
-      </div>
+      {/* Groq AI Assistant Chatbot - Fixed Bottom Left */}
+      <AIChatbot theme={theme} />
 
       {/* ─── STICKY HERO FOR CURTAIN REVEAL ─── */}
       <div className="relative w-full z-10" style={{ height: '100vh' }}>
@@ -497,7 +484,7 @@ const ibmCourses = [
                 }`}>
                   Core Expertise
                 </p>
-                <h3 className={`text-3xl md:text-6xl font-black tracking-tight mb-2 ${
+                <h3 className={`text-2xl sm:text-4xl md:text-6xl font-bold sm:font-black tracking-tight mb-2 ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
                   Technical Skills
@@ -509,11 +496,11 @@ const ibmCourses = [
                 </p>
               </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 md:gap-5 max-w-6xl mx-auto">
                   {skillCategories.map((category, index) => (
                 <div 
                   key={category.title} 
-                  className={`relative backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 transition-all duration-500 group overflow-hidden hover:shadow-2xl hover:-translate-y-1 ${
+                  className={`relative backdrop-blur-xl rounded-2xl md:rounded-3xl p-3.5 sm:p-4 md:p-6 transition-all duration-500 group overflow-hidden hover:shadow-2xl hover:-translate-y-1 ${
                     theme === 'dark'
                       ? 'bg-gradient-to-br from-[#151515]/90 via-[#101010]/85 to-[#0b0b0b]/80 border border-white/10 hover:border-[#C8FF5C]/40 hover:shadow-[#C8FF5C]/15'
                       : 'bg-white/90 border border-gray-200 hover:border-[#C8FF5C]/70 hover:shadow-[#C8FF5C]/25'
@@ -532,8 +519,8 @@ const ibmCourses = [
                   : 'bg-gradient-to-r from-transparent via-[#8ec438]/50 to-transparent'
               }`} />
               
-              <div className="relative flex items-start gap-3 md:gap-4 mb-4 md:mb-5">
-                <div className={`w-11 h-11 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:scale-105 group-hover:rotate-3 transition-all duration-500 shadow-lg overflow-hidden p-2 ${
+              <div className="relative flex items-start gap-3 md:gap-4 mb-3 sm:mb-4 md:mb-5">
+                <div className={`w-10 h-10 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:scale-105 group-hover:rotate-3 transition-all duration-500 shadow-lg overflow-hidden p-2 flex-shrink-0 ${
                   theme === 'dark'
                     ? 'bg-gradient-to-br from-[#C8FF5C]/25 via-[#C8FF5C]/10 to-transparent ring-1 ring-[#C8FF5C]/25 group-hover:ring-[#C8FF5C]/45 shadow-[#C8FF5C]/15'
                     : 'bg-gradient-to-br from-[#C8FF5C]/35 via-[#C8FF5C]/15 to-transparent ring-1 ring-[#8ec438]/30 group-hover:ring-[#8ec438]/50 shadow-[#8ec438]/20'
@@ -544,8 +531,8 @@ const ibmCourses = [
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <div className="flex-1 pt-0.5">
-                  <h4 className={`text-lg sm:text-xl md:text-2xl font-black mb-1 tracking-tight transition-colors duration-300 leading-tight ${
+                <div className="flex-1 pt-0.5 min-w-0">
+                  <h4 className={`text-base sm:text-xl md:text-2xl font-bold sm:font-black mb-1 tracking-tight transition-colors duration-300 leading-tight ${
                     theme === 'dark'
                       ? 'text-white group-hover:text-[#C8FF5C]'
                       : 'text-gray-900 group-hover:text-[#8ec438]'
@@ -604,7 +591,7 @@ const ibmCourses = [
                   </span>
                 </motion.div>
 
-                {/* Accordion Rows List styled exactly like screenshot */}
+                {/* Accordion Rows List */}
                 <div className="border-t border-gray-200 dark:border-white/10">
                   {services.map((service, index) => {
                     const isExpanded = expandedService === service.id;
@@ -624,19 +611,19 @@ const ibmCourses = [
                       >
                         <button
                           onClick={() => setExpandedService(isExpanded ? null : service.id)}
-                          className="w-full py-8 sm:py-10 flex items-center justify-between gap-6 text-left group relative"
+                          className="w-full py-5 sm:py-8 md:py-10 flex items-center justify-between gap-3 sm:gap-6 text-left group relative"
                           style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                         >
-                          <div className="flex items-center gap-6 sm:gap-10">
+                          <div className="flex items-center gap-3 sm:gap-6 md:gap-10">
                             {/* Service Number */}
-                            <span className={`text-sm sm:text-base font-mono font-bold ${
+                            <span className={`text-xs sm:text-base font-mono font-bold ${
                               theme === 'dark' ? 'text-white/40 group-hover:text-[#C8FF5C]' : 'text-gray-400 group-hover:text-[#8ec438]'
                             } transition-colors duration-300`}>
                               0{index + 1}
                             </span>
                             
                             {/* Service Title */}
-                            <span className={`text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tight transition-all duration-300 ${
+                            <span className={`text-sm sm:text-2xl md:text-3xl font-bold sm:font-extrabold uppercase tracking-tight transition-all duration-300 ${
                               theme === 'dark' 
                                 ? 'text-white group-hover:text-[#C8FF5C] group-hover:translate-x-2' 
                                 : 'text-gray-900 group-hover:text-[#8ec438] group-hover:translate-x-2'
@@ -647,13 +634,13 @@ const ibmCourses = [
 
                           {/* Arrow Container */}
                           <div className="flex items-center justify-center flex-shrink-0">
-                            <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-all duration-500 ${
+                            <div className={`w-8 h-8 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-all duration-500 ${
                               theme === 'dark'
                                 ? 'border-white/15 group-hover:border-[#C8FF5C]/50 group-hover:bg-[#C8FF5C] group-hover:text-black text-white/60'
                                 : 'border-gray-200 group-hover:border-[#8ec438]/50 group-hover:bg-[#8ec438] group-hover:text-white text-gray-500'
                             }`}>
                               <svg 
-                                className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-500 ${
+                                className={`w-3.5 h-3.5 sm:w-5 sm:h-5 transition-transform duration-500 ${
                                   isExpanded ? 'rotate-90' : 'group-hover:rotate-45'
                                 }`}
                                 fill="none" 
@@ -676,9 +663,9 @@ const ibmCourses = [
                           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                           className="overflow-hidden"
                         >
-                          <div className="pb-8 md:pb-12 pt-2 px-4 sm:px-14 flex flex-col md:flex-row gap-8 md:gap-16 items-start">
+                          <div className="pb-6 sm:pb-8 md:pb-12 pt-2 px-2 sm:px-14 flex flex-col md:flex-row gap-6 md:gap-16 items-start">
                             <div className="flex-1">
-                              <p className={`leading-relaxed text-sm sm:text-base whitespace-pre-line font-medium ${
+                              <p className={`leading-relaxed text-xs sm:text-sm md:text-base whitespace-pre-line font-medium ${
                                 theme === 'dark' ? 'text-white/70' : 'text-gray-700'
                               }`}>
                                 {service.description}
@@ -687,7 +674,7 @@ const ibmCourses = [
                             
                             {service.image && (
                               <div className="w-full md:w-[320px] flex-shrink-0">
-                                <div className={`rounded-3xl overflow-hidden border p-3 shadow-2xl transition-transform duration-500 hover:scale-[1.02] ${
+                                <div className={`rounded-2xl sm:rounded-3xl overflow-hidden border p-2.5 sm:p-3 shadow-2xl transition-transform duration-500 hover:scale-[1.02] ${
                                   theme === 'dark'
                                     ? 'border-[#C8FF5C]/20 bg-gradient-to-br from-white/5 to-transparent shadow-[#C8FF5C]/5'
                                     : 'border-[#8ec438]/20 bg-white shadow-gray-200'
@@ -695,7 +682,7 @@ const ibmCourses = [
                                   <img 
                                     src={service.image} 
                                     alt={service.title}
-                                    className="w-full h-auto object-cover rounded-2xl"
+                                    className="w-full h-44 sm:h-auto object-cover rounded-xl sm:rounded-2xl"
                                   />
                                 </div>
                               </div>
@@ -721,7 +708,7 @@ const ibmCourses = [
             : 'bg-gradient-to-b from-gray-100 via-gray-50 to-white text-gray-900'
         }`}
       >
-        <div className="container mx-auto px-6 py-12 md:py-20 relative z-10">
+        <div className="container mx-auto px-6 py-10 md:py-20 relative z-10">
           <div className="max-w-6xl mx-auto">
             {/* Achievements Header */}
             <motion.div 
@@ -729,19 +716,19 @@ const ibmCourses = [
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-10 text-left"
+              className="mb-8 md:mb-10 text-left"
             >
-              <span className={`text-sm sm:text-[15px] uppercase tracking-[0.2em] font-black border-b pb-1.5 ${
+              <span className={`text-xs sm:text-[15px] uppercase tracking-[0.2em] font-black border-b pb-1.5 ${
                 theme === 'dark' ? 'text-[#C8FF5C] border-[#C8FF5C]/30' : 'text-[#8ec438] border-[#8ec438]/30'
               }`}>
                 /CREDENTIALS
               </span>
-              <h2 className={`text-4xl md:text-[52px] font-black mt-3 md:mt-4 tracking-tight leading-tight ${
+              <h2 className={`text-2xl sm:text-3xl md:text-[52px] font-black mt-2.5 md:mt-4 tracking-tight leading-tight ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>
                 Achievements & Certifications
               </h2>
-              <p className={`text-base sm:text-lg mt-3 md:mt-4 max-w-3xl font-medium leading-relaxed ${
+              <p className={`text-xs sm:text-base md:text-lg mt-2 md:mt-4 max-w-3xl font-medium leading-relaxed ${
                 theme === 'dark' ? 'text-white/50' : 'text-gray-600'
               }`}>
                 Academic honors and professional certifications that showcase my commitment to continuous learning and advanced technical skill development.
@@ -750,7 +737,7 @@ const ibmCourses = [
 
             {/* Certifications Grid */}
             <div className="mb-10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5 md:gap-6">
                 {certifications.map((cert, index) => (
                   <motion.div
                     key={cert.id}
@@ -763,7 +750,7 @@ const ibmCourses = [
                       scale: 1.012,
                       transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
                     }}
-                    className={`group relative backdrop-blur-3xl border rounded-2xl p-4 flex flex-col justify-between min-h-[170px] sm:min-h-[190px] md:min-h-[238px] transition-all duration-500 overflow-hidden hover:shadow-md ${
+                    className={`group relative backdrop-blur-3xl border rounded-2xl p-3 sm:p-4 flex flex-col justify-between min-h-[145px] sm:min-h-[190px] md:min-h-[238px] transition-all duration-500 overflow-hidden hover:shadow-md ${
                       theme === 'dark'
                         ? `bg-gradient-to-br from-[#121212]/95 via-[#0a0a0a]/98 to-black/95 ${cert.borderColor} hover:border-[#C8FF5C]/35 hover:shadow-[#C8FF5C]/5`
                         : `bg-white/95 border-gray-200/70 hover:border-[#8ec438]/45 hover:shadow-gray-200/30`
@@ -779,7 +766,7 @@ const ibmCourses = [
                     <div>
                       {/* Top Row: Icon and Date */}
                       <div className="flex items-center justify-between mb-1.5">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center group-hover:scale-105 group-hover:rotate-2 transition-transform duration-500 shadow-sm overflow-hidden p-1.5 ${
+                        <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center group-hover:scale-105 group-hover:rotate-2 transition-transform duration-500 shadow-sm overflow-hidden p-1.5 ${
                           theme === 'dark'
                             ? 'bg-white/5 border border-white/10 shadow-black/25'
                             : 'bg-gray-50 border border-gray-150 shadow-gray-100/50'
@@ -791,12 +778,12 @@ const ibmCourses = [
                               className="w-full h-full object-contain"
                             />
                           ) : (
-                            <span className="text-base">{cert.icon}</span>
+                            <span className="text-sm sm:text-base">{cert.icon}</span>
                           )}
                         </div>
 
                         {/* Verification Date Badge */}
-                        <div className={`px-2 py-0.5 text-[10.5px] font-black rounded-full uppercase tracking-wider transition-all duration-300 ${
+                        <div className={`px-2 py-0.5 text-[9.5px] sm:text-[10.5px] font-extrabold rounded-full uppercase tracking-wider transition-all duration-300 ${
                           theme === 'dark'
                             ? 'bg-[#C8FF5C]/10 border border-[#C8FF5C]/20 text-[#C8FF5C]'
                             : 'bg-[#8ec438]/10 border border-[#8ec438]/20 text-[#6f9828]'
@@ -806,7 +793,7 @@ const ibmCourses = [
                       </div>
 
                       {/* Middle Row: Title */}
-                      <h3 className={`text-[14px] sm:text-[15px] md:text-[16px] font-black mb-1.5 tracking-tight leading-snug transition-colors duration-300 line-clamp-2 ${
+                      <h3 className={`text-[12.5px] sm:text-[15px] md:text-[16px] font-bold sm:font-black mb-1 tracking-tight leading-snug transition-colors duration-300 line-clamp-2 ${
                         theme === 'dark' 
                           ? 'text-white group-hover:text-[#C8FF5C]' 
                           : 'text-gray-900 group-hover:text-[#8ec438]'
@@ -815,7 +802,7 @@ const ibmCourses = [
                       </h3>
 
                       {/* Issuer Badge */}
-                      <span className={`text-[10.5px] font-extrabold px-2 py-0.5 rounded border uppercase tracking-wider inline-block mb-1.5 transition-all duration-300 ${
+                      <span className={`text-[9.5px] sm:text-[10.5px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider inline-block mb-1 transition-all duration-300 ${
                         theme === 'dark'
                           ? 'bg-white/5 border-white/10 text-white/50 group-hover:border-white/15'
                           : 'bg-gray-100 border-gray-200 text-gray-550 group-hover:border-gray-250'
@@ -825,7 +812,7 @@ const ibmCourses = [
 
                       {/* Description (if exists) */}
                       {cert.description && (
-                        <p className={`text-[11.5px] leading-relaxed line-clamp-2 font-medium ${
+                        <p className={`text-[10.5px] sm:text-[11.5px] leading-relaxed line-clamp-2 font-medium ${
                           theme === 'dark' ? 'text-white/40 group-hover:text-white/50' : 'text-gray-550 group-hover:text-gray-650'
                         } transition-colors duration-300`}>
                           {cert.description}
@@ -834,12 +821,12 @@ const ibmCourses = [
                     </div>
 
                     {/* Bottom Row: View Button */}
-                    <div className="mt-2 pt-2 border-t border-gray-150/10 dark:border-white/5 flex items-center justify-end">
+                    <div className="mt-1.5 pt-1.5 border-t border-gray-150/10 dark:border-white/5 flex items-center justify-end">
                       <a
                         href={cert.certificateUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                          className={`group/btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-[10.5px] font-black transition-all duration-300 hover:scale-[1.02] ${
+                        className={`group/btn inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-[9.5px] sm:text-[10.5px] font-bold sm:font-black transition-all duration-300 hover:scale-[1.02] ${
                           theme === 'dark'
                             ? 'bg-[#C8FF5C]/10 hover:bg-[#C8FF5C] border border-[#C8FF5C]/20 hover:border-[#C8FF5C] text-[#C8FF5C] hover:text-black shadow-md shadow-black/10'
                             : 'bg-[#8ec438]/10 hover:bg-[#8ec438] border border-[#8ec438]/20 hover:border-[#8ec438] text-[#5f8420] hover:text-white shadow-sm'
@@ -935,18 +922,11 @@ const ibmCourses = [
                           </div>
                         </div>
                         
-                        <h4 className={`text-lg sm:text-xl font-black mb-1 tracking-tight transition-colors duration-500 leading-snug ${
+                        <h4 className={`text-sm sm:text-xl font-bold sm:font-black mb-1 tracking-tight transition-colors duration-500 leading-snug ${
                           theme === 'dark' ? 'text-white group-hover:text-[#C8FF5C]' : 'text-gray-900 group-hover:text-[#8ec438]'
                         }`}>
                           IBM Generative AI Engineering Professional Certificate
                         </h4>
-                        
-                        <div className="flex items-center gap-1.5 text-yellow-400 text-[11px]">
-                          <span>★★★★★</span>
-                          <span className={`text-[11px] ml-1 font-semibold ${theme === 'dark' ? 'text-white/40' : 'text-gray-500'}`}>
-                            Authorized by IBM Certification Board
-                          </span>
-                        </div>
                       </div>
                     </div>
 
@@ -1032,10 +1012,10 @@ const ibmCourses = [
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="mt-24"
             >
-              <h3 className={`text-5xl md:text-6xl font-black mb-4 tracking-tight ${
+              <h3 className={`text-3xl sm:text-4xl md:text-6xl font-black mb-3 md:mb-4 tracking-tight ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>Work Experience</h3>
-              <p className={`text-lg mb-16 max-w-3xl leading-relaxed ${
+              <p className={`text-sm sm:text-base md:text-lg mb-8 md:mb-16 max-w-3xl leading-relaxed ${
                 theme === 'dark' ? 'text-white/50' : 'text-gray-600'
               }`}>
                 Gained hands-on experience delivering ML models, analytics dashboards, and full-stack web applications during industry internships
@@ -1052,12 +1032,12 @@ const ibmCourses = [
                     }`}
                     style={{ transitionDelay: `${index * 100}ms` }}
                   >
-                    <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12">
+                    <div className="py-6 sm:py-8 md:py-16 grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 md:gap-12">
                       {/* Left: Duration */}
                       <div className="md:col-span-2">
                         <div className="inline-flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-[#C8FF5C] group-hover:scale-125 transition-transform duration-500"></div>
-                          <p className={`text-sm font-bold group-hover:text-[#C8FF5C] transition-colors duration-500 uppercase tracking-wider ${
+                          <p className={`text-xs sm:text-sm font-bold group-hover:text-[#C8FF5C] transition-colors duration-500 uppercase tracking-wider ${
                             theme === 'dark' ? 'text-white/60' : 'text-gray-600'
                           }`}>
                             {internship.duration}
@@ -1067,12 +1047,12 @@ const ibmCourses = [
 
                       {/* Middle: Company & Role */}
                       <div className="md:col-span-4">
-                        <h4 className={`text-2xl md:text-3xl font-black mb-2 tracking-tight leading-tight group-hover:text-[#C8FF5C] transition-colors duration-500 ${
+                        <h4 className={`text-xl sm:text-2xl md:text-3xl font-black mb-1.5 md:mb-2 tracking-tight leading-tight group-hover:text-[#C8FF5C] transition-colors duration-500 ${
                           theme === 'dark' ? 'text-white' : 'text-gray-900'
                         }`}>
                           {internship.role}
                         </h4>
-                        <p className={`text-base font-semibold transition-colors duration-500 ${
+                        <p className={`text-sm sm:text-base font-semibold transition-colors duration-500 ${
                           theme === 'dark'
                             ? 'text-white/50 group-hover:text-white/70'
                             : 'text-gray-600 group-hover:text-gray-800'
@@ -1083,13 +1063,13 @@ const ibmCourses = [
 
                       {/* Right: Description */}
                       <div className="md:col-span-6">
-                        <div className="space-y-3">
+                        <div className="space-y-2.5 sm:space-y-3">
                           {internship.achievements.map((achievement, idx) => (
                             <p 
                               key={idx} 
-                            className={`text-base md:text-lg leading-relaxed transition-colors duration-500 ${
+                              className={`text-xs sm:text-sm md:text-base leading-relaxed transition-colors duration-500 ${
                                 theme === 'dark'
-                                  ? 'text-white/40 group-hover:text-white/60'
+                                  ? 'text-white/50 group-hover:text-white/70'
                                   : 'text-gray-600 group-hover:text-gray-800'
                               }`}
                               style={{ transitionDelay: `${idx * 50}ms` }}
@@ -1224,11 +1204,9 @@ const ibmCourses = [
                       }`}
                     >
                       <option value="">Select...</option>
-                      <option value="data-analytics">Data Analytics / Data Science</option>
-                      <option value="machine-learning">Machine Learning</option>
-                      <option value="full-stack">Full-Stack Development</option>
-                      <option value="ai-engineering">AI Engineering / Gen AI</option>
-                      <option value="consulting">Consulting / Advisory</option>
+                      <option value="software-development">Software Development</option>
+                      <option value="ai-engineer">AI Engineer</option>
+                      <option value="business-data-analyst">Business / Data Analyst</option>
                       <option value="other">Other</option>
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">

@@ -2,13 +2,14 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@import 'lenis/dist/lenis.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     overscroll-behavior: none;
     @apply font-sans;
   }

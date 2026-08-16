@@ -119,16 +119,9 @@ export default function ProjectsSection({ theme = 'dark' }) {
           color: #000000;
         }
 
-        .projects-stack-list {
-          position: relative;
-          z-index: 1;
-          overflow: visible;
-          isolation: isolate;
-        }
-
         @media (max-width: 900px) {
           .projects-stack-header {
-            padding: 48px 20px 24px;
+            padding: 40px 20px 20px;
           }
           .projects-stack-header h2 {
             font-size: 32px;
@@ -136,6 +129,18 @@ export default function ProjectsSection({ theme = 'dark' }) {
           .projects-stack-subtitle {
             font-size: 14px;
             margin-top: 8px;
+          }
+          .projects-stack-list {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            gap: 18px;
+            padding: 10px 20px 48px;
+          }
+          .projects-stack-list::-webkit-scrollbar {
+            display: none;
           }
         }
       `}</style>
@@ -205,13 +210,21 @@ function StickyProject({ project, index, total, isReversed }) {
             position: relative;
             height: auto;
             min-height: auto;
+            flex: 0 0 88vw;
+            max-width: 400px;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+            border-radius: 24px;
+            border: 1px solid rgba(200, 255, 92, 0.2);
+            background: color-mix(in srgb, var(--surface-bg) 95%, #000);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
           }
 
           .project-layout,
           .project-layout.is-reversed {
             grid-template-columns: 1fr;
-            gap: 20px;
-            padding: 24px 16px 40px;
+            gap: 16px;
+            padding: 16px 16px 28px;
           }
 
           .project-layout.is-reversed :global(.project-image-shell),
@@ -275,6 +288,8 @@ function ProjectImage({ project, priority }) {
           .project-image-shell {
             min-height: auto;
             aspect-ratio: 1.6 / 1;
+            border-radius: 16px;
+            overflow: hidden;
           }
         }
       `}</style>

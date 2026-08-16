@@ -677,7 +677,7 @@ export default function HeroSection({ theme = 'dark', onThemeChange, scrollY = 0
               <div className="hidden md:flex items-center gap-7">
                 {[
                   { label: 'GitHub',   url: 'https://github.com/SHXZ7' },
-                  { label: 'LinkedIn', url: 'https://linkedin.com/in/mohammed-shaaz' },
+                  { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mohammed-shaaz-098a1628b/' },
                 ].map(({ label, url }) => (
                   <a
                     key={label}
